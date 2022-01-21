@@ -80,6 +80,9 @@ $table_prefix = 'wp_';
  * @link https://wordpress.org/support/article/debugging-in-wordpress/
  */
 define( 'WP_DEBUG', false );
+	
+// define( 'AUTOMATIC_UPDATER_DISABLED', false );
+/*define( 'WP_AUTO_UPDATE_CORE', true );*/
 
 /* Add any custom values between this line and the "stop editing" line. */
 

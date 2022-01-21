@@ -1,0 +1,292 @@
+/*
+Theme Name: Stadsfabriek-Alkmaar-Theme
+Theme URI: https://stadsfabriekalkmaar.nl
+Author: BrainSoft ICT
+Author URI: https://brainsoftict.nl
+Description: The 2022 theme for the Stadsfabriek-Alkmaar
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: BrainSoft ICT
+*/
+
+/* stylelint-disable selector-list-comma-newline-after */
+.section-carousel{
+    height: 20vh;
+    padding:5% 2%;
+    text-align: center;
+    margin-bottom: 2%;  
+  }
+  
+  .content-boxes{ 
+    text-align: center;
+    background-color: #fff;
+    margin-bottom: 3vh;
+  }
+  
+  .content-box .fa{ 
+    font-size: 1.1rem; 
+    margin-bottom: 2vh;
+  }
+  
+  .content-box{ 
+    padding: 1vh 1vw;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  
+  .blog-header {
+      line-height: 1;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    
+    .blog-header-logo {
+      font-family: "Playfair Display", Georgia, "Times New Roman", serif/*rtl:Amiri, Georgia, "Times New Roman", serif*/;
+      font-size: 2.25rem;
+    }
+    
+    .blog-header-logo:hover {
+      text-decoration: none;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "Playfair Display", Georgia, "Times New Roman", serif/*rtl:Amiri, Georgia, "Times New Roman", serif*/;
+    }
+    
+    .display-4 {
+      font-size: 2.5rem;
+    }
+    @media (min-width: 768px) {
+      .display-4 {
+        font-size: 3rem;
+      }
+    }
+    .navbar-top{
+        position: fixed;
+        top: 4vh;
+        right: 0;
+        left: 0;
+        z-index: 1030;
+    }
+    .nav-scroller {
+      position: relative;
+      z-index: 2;
+      height: 2.75rem;
+      overflow-y: hidden;
+    }
+    
+    .nav-scroller .nav {
+      display: flex;
+      flex-wrap: nowrap;
+      padding-bottom: 1rem;
+      margin-top: -1px;
+      overflow-x: auto;
+      text-align: center;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .nav-scroller .nav-link {
+      padding-top: .75rem;
+      padding-bottom: .75rem;
+      font-size: .875rem;
+    }
+    
+    .card-img-right {
+      height: 100%;
+      border-radius: 0 3px 3px 0;
+    }
+    
+    .flex-auto {
+      flex: 0 0 auto;
+    }
+
+    .blog-masthead {
+        background-color: #428bca;
+        -webkit-box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);
+                box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);
+      }
+      
+      /* Nav links */
+      .blog-nav-item {
+        position: relative;
+        display: inline-block;
+        padding: 10px;
+        font-weight: 500;
+        color: #cdddeb;
+      }
+      .blog-nav-item:hover,
+      .blog-nav-item:focus {
+        color: #fff;
+        text-decoration: none;
+      }
+      
+      /* Active state gets a caret at the bottom */
+      .blog-nav .active {
+        color: #fff;
+      }
+      .blog-nav .active:after {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 0;
+        margin-left: -5px;
+        vertical-align: middle;
+        content: " ";
+        border-right: 5px solid transparent;
+        border-bottom: 5px solid;
+        border-left: 5px solid transparent;
+      }
+      
+      .header-bg{
+        height:40vh;
+        padding: 100px 20px;
+        text-align: center;
+        border-bottom:#ccc 1px solid;
+        margin-bottom:30px;
+        color:#fff;
+      }
+
+      .header-bg h1{
+        font-size: 55px;
+        padding-bottom:20px;
+        color:#fff;
+      }
+     
+      .header-bg p {
+        font-size:20px;
+        margin-bottom:50px;
+      }
+      /*
+       * Blog name and description
+       */
+      
+      .blog-header {
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+      .blog-title {
+        margin-top: 30px;
+        margin-bottom: 0;
+        font-size: 60px;
+        font-weight: normal;
+      }
+      .blog-description {
+        font-size: 20px;
+        color: #999;
+      }
+      
+      
+      /*
+       * Main column and sidebar layout
+       */
+      
+      .blog-main {
+        font-size: 18px;
+        line-height: 1.5;
+      }
+      
+      /* Sidebar modules for boxing content */
+      .sidebar-module {
+        padding: 15px;
+        margin: 0 -15px 15px;
+      }
+      .sidebar-module-inset {
+        padding: 15px;
+        background-color: #f5f5f5;
+        border-radius: 4px;
+      }
+      .sidebar-module-inset p:last-child,
+      .sidebar-module-inset ul:last-child,
+      .sidebar-module-inset ol:last-child {
+        margin-bottom: 0;
+      }
+      
+      
+      /* Pagination */
+      .pager {
+        margin-bottom: 60px;
+        text-align: left;
+      }
+      .pager > li > a {
+        width: 140px;
+        padding: 10px 20px;
+        text-align: center;
+        border-radius: 30px;
+      }
+      
+      
+      /*
+       * Blog posts
+       */
+      
+      .blog-post {
+        margin-bottom: 60px;
+      }
+      .blog-post-title {
+        margin-bottom: 5px;
+        font-size: 40px;
+      }
+      .blog-post-meta {
+        margin-bottom: 20px;
+        color: #999;
+      }
+      
+      
+      /*
+       * Footer
+       */
+      
+      .blog-footer {
+        padding: 40px 0;
+        color: #999;
+        text-align: center;
+        background-color: #f9f9f9;
+        border-top: 1px solid #e5e5e5;
+      }
+      .blog-footer p:last-child {
+        margin-bottom: 0;
+      }
+      
+    
+    .h-250 { height: 250px; }
+    @media (min-width: 768px) {
+      .h-md-250 { height: 250px; }
+    }
+    
+    /* Pagination */
+    .blog-pagination {
+      margin-bottom: 4rem;
+    }
+    .blog-pagination > .btn {
+      border-radius: 2rem;
+    }
+    
+    /*
+     * Blog posts
+     */
+    .blog-post {
+      margin-bottom: 4rem;
+    }
+    .blog-post-title {
+      margin-bottom: .25rem;
+      font-size: 2.5rem;
+    }
+    .blog-post-meta {
+      margin-bottom: 1.25rem;
+      color: #727272;
+    }
+    
+    /*
+     * Footer
+     */
+    .blog-footer {
+      padding: 2.5rem 0;
+      color: #727272;
+      text-align: center;
+      background-color: #f9f9f9;
+      border-top: .05rem solid #e5e5e5;
+    }
+    .blog-footer p:last-child {
+      margin-bottom: 0;
+    }
