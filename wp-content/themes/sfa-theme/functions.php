@@ -1,7 +1,15 @@
 <?php
   // Register Nav Walker class_alias
   require_once('wp_bootstrap_navwalker.php');
+  function add_jquery() {
+    if(!is_admin()){
+    wp_deregister_script('jquery');
+    wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js', false, '1.12.4');
+    wp_enqueue_script( 'jquery' );
+    }
+ }    
 
+ add_action('init', 'add_jquery');
   // Theme Support
   function wpb_theme_setup(){
     add_theme_support('post-thumbnails');
