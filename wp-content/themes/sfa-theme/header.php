@@ -42,7 +42,7 @@
 
     <?php wp_head(); ?>
     <!-- Custom styles for this template -->
-    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet"> -->
     <style>
       .showcase{
         background:url(<?php echo get_theme_mod('showcase_image', get_bloginfo('template_url').'/img/Stadsfabriek-header-big.png'); ?>) no-repeat;
@@ -157,17 +157,17 @@
   </section>
 </header>
 <main>
-  <div class="container">
+  <!-- <div class="container">
       <div class="blog-header">
           <h1 class="blog-title"><?php bloginfo('name'); ?></h1>
           <p class="lead blog-description"> </p>
       </div>
       <section class="header-bg">
           <div class="container">
-              <!-- <img src="<?php echo get_theme_mod('showcase_image', get_bloginfo('template_url').'/img/Stadsfabriek-logo-diap.png'); ?>" alt="Stadsfabriek Alkmaar" /> -->
+              <img src="<?php echo get_theme_mod('showcase_image', get_bloginfo('template_url').'/img/Stadsfabriek-logo-diap.png'); ?>" alt="Stadsfabriek Alkmaar" /> 
               <h1><?php echo get_theme_mod('showcase_heading', 'test')?></h1>
               <p><?php echo get_theme_mod('showcase_text', 'Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eu leo quam'); ?></p>
               <a href="<?php echo get_theme_mod('btn_url', 'http://test.com'); ?>" class="btn btn-primary btn-lg"><?php echo get_theme_mod('btn_text', 'Get Started'); ?></a>
           </div>
       </section>
-  </div>
+  </div> -->

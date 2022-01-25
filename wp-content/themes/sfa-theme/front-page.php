@@ -15,7 +15,7 @@
     <!-- Custom styles for this template -->
     <link href="<?php bloginfo('stylesheet_url'); ?>" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet"> -->
     <?php wp_head(); ?>
     <style>
       .showcase{
@@ -25,6 +25,7 @@
     </style>
   </head>
   <body>
+  <!-- <div class="container main-body"></div> -->
   <header>
     <section class="showcase">
       <div class="blog-masthead">
@@ -152,6 +153,21 @@
         </div>
       </div>
     </div>
+    <div class="container">
+      <div class="row">
+        <div class="col col-md-6">
+          <div class="font-quicksand">
+            Dit is Quicksand.
+          </div>
+          <div class="font-verdana">
+              Dit is verdana.
+          </div>
+          <div class="font-impact">
+              Dit is Impact.
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 </main>
 <footer class="blog-footer">
@@ -167,4 +183,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script> 
     <script src="<?php bloginfo('template_url'); ?>/js/bootstrap/bootstrap.bundle.js" type="text/javascript" ></script>
 </body>
+<script type="text/javascript">
+      $(function() {        
+        $('.nav').children(':last-child').removeClass("nav-item");
+        $('.nav').children(':last-child').addClass("nav-item-last");
+      });    
+ </script>
 </html>
