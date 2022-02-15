@@ -509,17 +509,27 @@ function colibri_duplicate_post_as_draft($post_id, $title = null)
         /*
         * duplicate all post meta
         */
-        $post_meta_infos = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$post_id");
-        if (count($post_meta_infos) != 0) {
-            $sql_query = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
-            foreach ($post_meta_infos as $meta_info) {
-                $meta_key = sanitize_text_field($meta_info->meta_key);
-                $meta_value = addslashes($meta_info->meta_value);
-                $sql_query_sel[] = "SELECT $new_post_id, '$meta_key', '$meta_value'";
-            }
-            $sql_query .= implode(" UNION ALL ", $sql_query_sel);
-            $wpdb->query($sql_query);
-        }
+		$post_meta_infos = $wpdb->get_results( "SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$post_id" );
+		
+		if ( count( $post_meta_infos ) != 0 ) {
+
+			foreach ( $post_meta_infos as $meta_info ) {
+				$meta_key        = $meta_info->meta_key;
+				$meta_value      = $meta_info->meta_value;
+				$sql_query_sel[] = $wpdb->prepare(
+					"SELECT %d, %s,%s ",
+					$new_post_id,
+					$meta_key,
+					$meta_value
+				);
+			}
+
+			$sql_query = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
+			$sql_query .= implode( " UNION ALL ", $sql_query_sel );
+
+			$wpdb->query( $sql_query );
+		}
+
         return $new_post_id;
     } else {
         wp_die('Error! Post creation failed, could not find original post: ' . $post_id);

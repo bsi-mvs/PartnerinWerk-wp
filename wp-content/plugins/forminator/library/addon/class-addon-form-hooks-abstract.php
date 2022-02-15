@@ -882,4 +882,73 @@ abstract class Forminator_Addon_Form_Hooks_Abstract extends Forminator_Addon_Hoo
 		return $meta_value;
 	}
 
+	/**
+	 * Check if element_id is upload
+	 *
+	 * @since 1.15.7
+	 *
+	 * @param $element_id
+	 *
+	 * @return bool
+	 */
+	public static function element_is_upload( $element_id ) {
+		$is_upload = stripos( $element_id, 'upload' ) !== false;
+
+		/**
+		 * Filter upload flag of element
+		 *
+		 * @since 1.15.7
+		 *
+		 * @param bool   $is_upload
+		 * @param string $element_id
+		 *
+		 * @return bool
+		 */
+		$is_upload = apply_filters( 'forminator_addon_element_is_upload', $is_upload, $element_id );
+
+		return $is_upload;
+	}
+
+	/**
+	 * Return field data value as string
+	 *
+	 * @since 1.15.7
+	 *
+	 * @param $element_id
+	 *
+	 * @return bool
+	 */
+	public static function get_field_value( $element_id, $element ) {
+		
+		if ( is_array( $element ) ) {
+
+			if ( self::element_is_upload( $element_id ) && isset( $element['file_url'] ) ) {
+				if ( is_array( $element['file_url'] ) ) {
+					$element_value = implode( ',', $element['file_url'] );
+				} else {
+					$element_value = $element['file_url'];
+				}
+			} else {
+				$element_value = implode( ',', $element );
+			}
+
+		} else {
+			$element_value = trim( $element );
+		}
+
+		/**
+		 * Filter element value
+		 *
+		 * @since 1.15.7
+		 *
+		 * @param bool   $element_value
+		 * @param string $element_id
+		 *
+		 * @return bool
+		 */
+		$element_value = apply_filters( 'forminator_addon_element_value', $element_value, $element_id );
+
+		return $element_value;
+	}
+
 }

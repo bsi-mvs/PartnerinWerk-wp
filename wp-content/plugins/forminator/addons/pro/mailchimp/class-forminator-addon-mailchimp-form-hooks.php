@@ -317,7 +317,10 @@ class Forminator_Addon_Mailchimp_Form_Hooks extends Forminator_Addon_Form_Hooks_
                 $mailchimp_formatted    = $mailchimp_format->format( 'Y-m-d' );
                 $submitted_data[$field] = $mailchimp_formatted;
             }
-			if ( false !== strpos( $field, 'gdprcheckbox' ) && ! empty( $value ) ) {
+			if (
+				! empty( $value ) && 
+				( false !== strpos( $field, 'gdprcheckbox' ) || false !== strpos( $field, 'consent' ) )
+			) {
 				$gdpr = true;
 			}
         }
@@ -479,7 +482,7 @@ class Forminator_Addon_Mailchimp_Form_Hooks extends Forminator_Addon_Form_Hooks_
 							$meta_value    = self::find_meta_value_from_entry_fields( $element_id, $form_entry_fields );
 							$element_value = Forminator_Form_Entry_Model::meta_value_to_string( 'stripe', $meta_value );
 						} elseif ( isset( $submitted_data[ $element_id ] ) && ! empty( $submitted_data[ $element_id ] ) ) {
-							$element_value = trim( $submitted_data[ $element_id ] );
+							$element_value = self::get_field_value( $element_id, $submitted_data[ $element_id ] );
 						}
 
 						if ( isset( $element_value ) ) {

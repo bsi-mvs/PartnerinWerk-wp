@@ -157,7 +157,7 @@ class Forminator_Upload extends Forminator_Field {
 		$file_limit_type  = self::get_property( 'file-limit', $field, 'unlimited' );
 		$custom_file_type = self::get_property( 'custom-files', $field, false );
 		$custom_file_type = filter_var( $custom_file_type, FILTER_VALIDATE_BOOLEAN );
-		$file_mime_types  = $this->file_mine_type( $field );
+		$file_mime_types  = $this->file_mime_type( $field );
 		$mime_types       = array_filter( $file_mime_types );
 
 		if ( 'multiple' === $file_type ) {
@@ -270,8 +270,8 @@ class Forminator_Upload extends Forminator_Field {
 			$element_id .= '[]';
 		}
 		$rules              = '"' . $element_id . '": {' . "\n";
-		$mine_type          = $this->file_mine_type( $field );
-		$allowed_mime_types = ! empty( $mine_type ) ? implode( '|', array_values( $mine_type ) ) : '';
+		$mime_type          = $this->file_mime_type( $field );
+		$allowed_mime_types = ! empty( $mime_type ) ? implode( '|', array_values( $mime_type ) ) : '';
 
 		if ( $this->is_required( $field ) ) {
 			$rules .= '"required": true,';
@@ -572,7 +572,6 @@ class Forminator_Upload extends Forminator_Field {
 						$unique_file_name = wp_unique_filename( $upload_dir['path'], $file_name );
 						$exploded_name    = explode( '/', $unique_file_name );
 						$filename         = end( $exploded_name );
-						chmod( $upload_dir['path'], 0777 );
 						if ( wp_is_writable( $upload_dir['path'] ) ) {
 							$file_path = $upload_dir['path'] . '/' . trim( sanitize_file_name( $filename ) );
 							$file_url  = $upload_dir['url'] . '/' . trim( sanitize_file_name( $filename ) );
@@ -744,7 +743,7 @@ class Forminator_Upload extends Forminator_Field {
 	 *
 	 * @return array
 	 */
-	public function file_mine_type( $field ) {
+	public function file_mime_type( $field ) {
 		$mime_types          = array();
 		$default_all         = array(
 			'all-image',
@@ -786,5 +785,17 @@ class Forminator_Upload extends Forminator_Field {
 		}
 
 		return $mime_type;
+	}
+
+	/**
+	 * Set permission
+	 *
+	 * @param $path
+	 */
+	public function set_permissions( $path ) {
+		$permission = apply_filters( 'forminator_file_permission', 0755, $path );
+		if ( $permission ) {
+			@chmod( $path, $permission );
+		}
 	}
 }

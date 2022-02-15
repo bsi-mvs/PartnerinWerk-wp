@@ -48,6 +48,20 @@ abstract class Forminator_Base_Form_Model {
 	public $notifications = array();
 
 	/**
+	 * Form behaviors
+	 *
+	 * @var array
+	 */
+	public $behaviors = array();
+
+	/**
+	 * Integration Conditions
+	 *
+	 * @var array
+	 */
+	public $integration_conditions = array();
+
+	/**
 	 * WP_Post
 	 */
 	public $raw;
@@ -854,6 +868,16 @@ abstract class Forminator_Base_Form_Model {
 			),
 			array(
 				'type'     => 'meta',
+				'property' => 'integration_conditions',
+				'field'    => 'integration_conditions',
+			),
+			array(
+				'type'     => 'meta',
+				'property' => 'behaviors',
+				'field'    => 'behaviors',
+			),
+			array(
+				'type'     => 'meta',
 				'property' => 'notifications',
 				'field'    => 'notifications',
 			),
@@ -1162,6 +1186,8 @@ abstract class Forminator_Base_Form_Model {
 								}
 							}
 							$data['fields'][ $i ]['payments'][ $x ]['plan_id'] = '';
+							$data['fields'][ $i ]['payments'][ $x ]['live_plan_id'] = '';
+							$data['fields'][ $i ]['payments'][ $x ]['test_plan_id'] = '';
 							$x ++;
 						}
 					}

@@ -188,7 +188,7 @@ class Forminator_Core {
 		/* @noinspection PhpIncludeInspection */
 		include_once forminator_plugin_dir() . 'library/render/class-widget.php';
 		/* @noinspection PhpIncludeInspection */
-		include_once forminator_plugin_dir() . 'library/class-recaptcha.php';
+		include_once forminator_plugin_dir() . 'library/class-captcha-verification.php';
 		/* @noinspection PhpIncludeInspection */
 		include_once forminator_plugin_dir() . 'library/class-migration.php';
 
@@ -386,6 +386,10 @@ class Forminator_Core {
 			'confirm-password-description',
 			'description',
             'consent_description',
+            'hc_invisible_notice',
+            'options_bulk_editor',
+            'label',
+            'value',
 		);
 		if ( in_array( $current_key, $allow_html, true ) || 0 === strpos( $current_key, 'html-' ) ) {
 			return wp_kses_post( $data );

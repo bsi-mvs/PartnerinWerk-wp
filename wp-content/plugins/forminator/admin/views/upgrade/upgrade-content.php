@@ -6,8 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <div class="sui-wrap wpmudev-forminator-forminator">
 
-	<?php //$this->black_friday_notice(); ?>
-
 	<div class="sui-upgrade-page">
 
 		<div class="sui-upgrade-page-header">

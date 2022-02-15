@@ -136,10 +136,10 @@ class Forminator_CForm_Front_User_Registration extends Forminator_User {
 	/**
 	 * Handle activation user
 	 *
-	 * @param array                       $user_data
-	 * @param array                       $custom_form
+	 * @param array $user_data
+	 * @param array $custom_form
 	 * @param Forminator_Form_Entry_Model $entry
-	 * @param array                       $submitted_data
+	 * @param array $submitted_data
 	 *
 	 * @return bool|void
 	 */
@@ -865,8 +865,7 @@ class Forminator_CForm_Front_User_Registration extends Forminator_User {
 	 */
 	public function change_thankyou_message( $message, $submitted_data, $custom_form ) {
 		$settings = $custom_form->settings;
-		if ( isset( $settings['activation-method'] )
-			&& ! empty( $settings['activation-method'] )
+		if ( ! empty( $settings['activation-method'] )
 			&& $this->check_activation_method( $settings['activation-method'] )
 			&& isset( $settings[ $settings['activation-method'] . '-thankyou-message' ] )
 		) {
@@ -914,8 +913,7 @@ class Forminator_CForm_Front_User_Registration extends Forminator_User {
 
 		$switched_locale = switch_to_locale( get_locale() );
 
-		/*
-		 Removed in 1.15.1, if no problem occurs in few months, we can delete this in 1.15.3?
+		/* Removed in 1.15.1, if no problem occurs in few months, we can delete this in 1.15.3?
 		$message  = sprintf( __( 'New user registration on your site %s:', 'forminator' ), $blogname ) . "\r\n\r\n";
 		$message .= sprintf( __( 'Username: %s', 'forminator' ), $username ) . "\r\n\r\n";
 		$message .= sprintf( __( 'Email: %s', 'forminator' ), $user->user_email ) . "\r\n";
@@ -969,124 +967,15 @@ class Forminator_CForm_Front_User_Registration extends Forminator_User {
 	 */
 	public function conditional_user_role( $settings, $submitted_data, $pseudo_submitted_data ) {
 		$user_role  = 'subscriber';
-		$user_roles = isset( $settings['user_role'] ) ? $settings['user_role'] : array();
-		if ( ! empty( $user_roles ) ) {
-			foreach ( $user_roles as $role ) {
-				if ( $this->is_user_role( $role, $submitted_data, $pseudo_submitted_data ) ) {
-					$user_role = $role['role'];
+		$conditions = isset( $settings['user_role'] ) ? $settings['user_role'] : array();
+		if ( ! empty( $conditions ) ) {
+			foreach ( $conditions as $condition ) {
+				if ( Forminator_Field::is_condition_matched( $condition, $submitted_data, $pseudo_submitted_data ) ) {
+					return $condition['role'];
 				}
 			}
 		}
 
 		return $user_role;
-	}
-
-	/**
-	 * Check if user role is condition
-	 *
-	 * @since 1.0
-	 *
-	 * @param $condition
-	 * @param $form_data
-	 * @param $pseudo_submitted_data
-	 *
-	 * @return bool
-	 */
-	public function is_user_role( $condition, $form_data, $pseudo_submitted_data = array() ) {
-
-		// empty conditions.
-		if ( empty( $condition ) ) {
-			return false;
-		}
-
-		$element_id = $condition['element_id'];
-		if ( stripos( $element_id, 'signature-' ) !== false ) {
-			// We have signature field.
-			$is_condition_fulfilled = false;
-			$signature_id           = 'field-' . $element_id;
-
-			if ( isset( $form_data[ $signature_id ] ) ) {
-				$signature_data = 'ctlSignature' . $form_data[ $signature_id ] . '_data';
-
-				if ( isset( $form_data[ $signature_data ] ) ) {
-					$is_condition_fulfilled = self::is_condition_fulfilled( $form_data[ $signature_data ], $condition );
-				}
-			}
-			return $is_condition_fulfilled;
-		} elseif ( stripos( $element_id, 'calculation-' ) !== false || stripos( $element_id, 'stripe-' ) !== false ) {
-			$is_condition_fulfilled = false;
-			if ( isset( $pseudo_submitted_data[ $element_id ] ) ) {
-				$is_condition_fulfilled = self::is_condition_fulfilled( $pseudo_submitted_data[ $element_id ], $condition );
-			}
-			return $is_condition_fulfilled;
-		} elseif ( stripos( $element_id, 'checkbox-' ) !== false || stripos( $element_id, 'radio-' ) !== false ) {
-			return self::is_condition_fulfilled( $form_data[ $element_id ], $condition );
-		} elseif ( ! isset( $form_data[ $element_id ] ) ) {
-			return false;
-		} else {
-			return self::is_condition_fulfilled( $form_data[ $element_id ], $condition );
-		}
-	}
-
-	/**
-	 * Check if Form Field value fullfilled the condition
-	 *
-	 * @since 1.0
-	 *
-	 * @param $form_field_value
-	 * @param $condition
-	 *
-	 * @return bool
-	 */
-	public static function is_condition_fulfilled( $form_field_value, $condition ) {
-		switch ( $condition['rule'] ) {
-			case 'is':
-				if ( is_array( $form_field_value ) ) {
-					// possible input is "1" to be compared with 1.
-					return in_array( $condition['value'], $form_field_value ); //phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
-				}
-				if ( is_numeric( $condition['value'] ) ) {
-					return ( (int) $form_field_value === (int) $condition['value'] );
-				}
-
-				return ( $form_field_value === $condition['value'] );
-			case 'is_not':
-				if ( is_array( $form_field_value ) ) {
-					// possible input is "1" to be compared with 1.
-					return ! in_array( $condition['value'], $form_field_value ); //phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
-				}
-
-				return ( $form_field_value !== $condition['value'] );
-			case 'is_great':
-				if ( ! is_numeric( $condition['value'] ) ) {
-					return false;
-				}
-				if ( ! is_numeric( $form_field_value ) ) {
-					return false;
-				}
-
-				return $form_field_value > $condition['value'];
-			case 'is_less':
-				if ( ! is_numeric( $condition['value'] ) ) {
-					return false;
-				}
-				if ( ! is_numeric( $form_field_value ) ) {
-					return false;
-				}
-
-				return $form_field_value < $condition['value'];
-			case 'contains':
-				return ( stripos( $form_field_value, $condition['value'] ) === false ? false : true );
-			case 'starts':
-				return ( stripos( $form_field_value, $condition['value'] ) === 0 ? true : false );
-			case 'ends':
-				return ( stripos( $form_field_value, $condition['value'] ) === ( strlen( $form_field_value - 1 ) ) ? true : false );
-			case 'is_correct':
-				return $form_field_value ? true : false;
-			case 'is_incorrect':
-				return ! $form_field_value ? true : false;
-			default:
-				return false;
-		}
 	}
 }

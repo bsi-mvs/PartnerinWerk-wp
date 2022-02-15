@@ -23,7 +23,7 @@
       $(function() {        
         $('.nav').children(':last-child').removeClass("nav-item");
         $('.nav').children(':last-child').addClass("nav-item-last");
-      });    
+      });  
     </script>
   </body>
 </html>

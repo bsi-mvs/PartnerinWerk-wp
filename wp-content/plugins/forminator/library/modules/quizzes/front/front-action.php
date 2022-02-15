@@ -103,14 +103,14 @@ class Forminator_Quiz_Front_Action extends Forminator_Front_Action {
 	 * @param bool                  $is_preview
 	 */
 	private function _process_nowrong_submit( $model, $is_preview = false ) {
-		// counting the result.
+		//counting the result
 		$results     = array();
 		$result_data = array();
 		$post_data   = $this->get_post_data();
 
 		if ( isset( $post_data['answers'] ) ) {
 			foreach ( $post_data['answers'] as $id => $answer ) {
-				// collecting the results from answer.
+				// collecting the results from answer
 				$results[]                = $model->getResultFromAnswer( $id, $answer );
 				$question                 = $model->getQuestion( $id );
 				$a                        = $model->getAnswer( $id, $answer );
@@ -133,7 +133,7 @@ class Forminator_Quiz_Front_Action extends Forminator_Front_Action {
 
 		$result_data['result'] = $final_res;
 
-		// ADDON on_form_submit.
+		//ADDON on_form_submit
 		$addon_error = $this->attach_addons_on_quiz_submit( $model->id, $model );
 		if ( true !== $addon_error ) {
 			wp_send_json_error(
@@ -162,11 +162,11 @@ class Forminator_Quiz_Front_Action extends Forminator_Front_Action {
 		$result->set_entry( $entry_id );
 		$result->set_postdata( $post_data );
 
-		// Email.
+		// Email
 		$forminator_mail_sender = new Forminator_Quiz_Front_Mail();
 		$forminator_mail_sender->process_mail( $model, $post_data, $entries, $final_res );
 
-		// dont push history on preview.
+		// dont push history on preview
 		$result_url = ! $is_preview ? $result->build_permalink() : '';
 
 		// replace tags if any.
@@ -548,16 +548,16 @@ class Forminator_Quiz_Front_Action extends Forminator_Front_Action {
 		$post_data['final_result'] = $right_counter;
 
 		if ( $is_finish && ! is_null( $entry ) ) {
-			// Email.
+			// Email
 			$forminator_mail_sender = new Forminator_Quiz_Front_Mail();
 			$forminator_mail_sender->process_mail( $model, $post_data, $entries );
-			// replace quiz form data.
+			// replace quiz form data
 			$final_text = forminator_replace_quiz_form_data( $final_text, $model, $post_data, $entry );
 		}
 
-		// dont push history on preview.
+		// dont push history on preview
 		$result_url = ! $is_preview ? $result->build_permalink() : '';
-		// store the.
+		//store the
 		wp_send_json_success(
 			array(
 				'result'     => $results,
@@ -754,16 +754,16 @@ class Forminator_Quiz_Front_Action extends Forminator_Front_Action {
 		$post_data['final_result'] = $total_counter;
 
 		if ( $is_finish && ! is_null( $entry ) ) {
-			// Email.
+			// Email
 			$forminator_mail_sender = new Forminator_Quiz_Front_Mail();
 			$forminator_mail_sender->process_mail( $model, $post_data, $entries );
-			// replace quiz form data.
+			// replace quiz form data
 			$final_text = forminator_replace_quiz_form_data( $final_text, $model, $post_data, $entry );
 		}
 
-		// dont push history on preview.
+		// dont push history on preview
 		$result_url = ! $is_preview ? $result->build_permalink() : '';
-		// store the.
+		// store the
 		wp_send_json_success(
 			array(
 				'result'     => $results,
@@ -961,7 +961,7 @@ class Forminator_Quiz_Front_Action extends Forminator_Front_Action {
 			$entry->set_fields( $added_data_array );
 
 			// ADDON after_entry_saved.
-			$this->attach_addons_after_entry_saved( $quiz_id, $entry );
+			$this->attach_addons_after_entry_saved( $entry, $quiz );
 		}
 
 		return $entry;

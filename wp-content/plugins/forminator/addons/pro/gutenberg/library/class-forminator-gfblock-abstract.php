@@ -41,6 +41,9 @@ abstract class Forminator_GFBlock_Abstract {
 
 		// Load block scripts.
 		add_action( 'enqueue_block_editor_assets', array( $this, 'load_assets' ) );
+
+		// Load elementor scripts.
+		add_action( 'elementor/preview/enqueue_scripts', array( $this, 'load_assets' ) );
 	}
 
 	/**

@@ -324,13 +324,12 @@ class Forminator_Form_Model extends Forminator_Base_Form_Model {
 	 *
 	 * @return string
 	 */
-	public function get_submission_behaviour() {
+	public function get_submission_behaviour( $behavior_options ) {
 		$form_id              = (int) $this->id;
-		$form_settings        = $this->settings;
 		$submission_behaviour = 'behaviour-thankyou';
 
-		if ( isset( $form_settings['submission-behaviour'] ) ) {
-			$submission_behaviour = $form_settings['submission-behaviour'];
+		if ( isset( $behavior_options['submission-behaviour'] ) ) {
+			$submission_behaviour = $behavior_options['submission-behaviour'];
 		}
 
 		// If Stripe field exist & submit is AJAX we fall back to hide to force page reload when form submitted.
@@ -338,9 +337,38 @@ class Forminator_Form_Model extends Forminator_Base_Form_Model {
 			$submission_behaviour = 'behaviour-hide';
 		}
 
-		$submission_behaviour = apply_filters( 'forminator_custom_form_get_submission_behaviour', $submission_behaviour, $form_id, $form_settings );
+		$submission_behaviour = apply_filters( 'forminator_custom_form_get_submission_behaviour', $submission_behaviour, $form_id, $behavior_options );
 
 		return $submission_behaviour;
+	}
+
+	/**
+	 * Return behaviors options.
+	 *
+	 * @param object $module Module obkect.
+	 * @param array  $settings Module settings.
+	 * @return array
+	 */
+	public static function get_behavior_array( $module, $settings ) {
+		if ( ! isset( $module ) || empty( $module->behaviors ) ) {
+			// Backward compatibility | Default.
+			return array(
+				array(
+					'slug'                    => 'behavior-1234-4567',
+					'label'                   => '',
+					'autoclose-time'          => isset( $settings['autoclose-time'] ) ? $settings['autoclose-time'] : 5,
+					'autoclose'               => isset( $settings['autoclose'] ) ? $settings['autoclose'] : true,
+					'newtab'                  => isset( $settings['newtab'] ) ? $settings['newtab'] : 'sametab',
+					'thankyou-message'        => isset( $settings['thankyou-message'] ) ? $settings['thankyou-message'] : '',
+					'email-thankyou-message'  => isset( $settings['email-thankyou-message'] ) ? $settings['email-thankyou-message'] : '',
+					'manual-thankyou-message' => isset( $settings['manual-thankyou-message'] ) ? $settings['manual-thankyou-message'] : '',
+					'submission-behaviour'    => isset( $settings['submission-behaviour'] ) ? $settings['submission-behaviour'] : 'behaviour-thankyou',
+					'redirect-url'            => isset( $settings['redirect-url'] ) ? $settings['redirect-url'] : '',
+				),
+			);
+		}
+
+		return $module->behaviors;
 	}
 
 	/**

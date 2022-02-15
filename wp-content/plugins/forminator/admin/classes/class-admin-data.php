@@ -109,6 +109,7 @@ class Forminator_Admin_Data {
 			'hasV2Captcha'                   => forminator_has_v2_captcha_settings(),
 			'hasV2InvisibleCaptcha'          => forminator_has_v2_invisible_captcha_settings(),
 			'hasV3Captcha'                   => forminator_has_v3_captcha_settings(),
+			'hasHCaptcha'                   => forminator_has_hcaptcha_settings(),
 			'hasStripe'                      => forminator_has_stripe_connected(),
 			'formNonce'                      => $this->get_nonce(),
 			'resetTrackingDataNonce'         => wp_create_nonce( 'forminator_reset_tracking_data' ),

@@ -132,7 +132,18 @@
         </div>
       </div>
       <!-- nav elements-->
-
+      <!-- First Carousel -->
+      <div class="carousel">
+        <div class="owl-carousel">
+          <div> Your Content </div>
+          <div> Your Content </div>
+          <div> Your Content </div>
+          <div> Your Content </div>
+          <div> Your Content </div>
+          <div> Your Content </div>
+          <div> Your Content </div>
+        </div>
+      </div>
       <!-- Gradients -->
       <div class="container gradient-container">
         <div class="row">

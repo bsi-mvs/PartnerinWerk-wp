@@ -562,33 +562,7 @@ class Forminator_CForm_Front_Mail extends Forminator_Mail {
 		$all_conditions = $notification['conditions'];
 
 		foreach ( $all_conditions as $condition ) {
-			$element_id = $condition['element_id'];
-
-			if ( stripos( $element_id, 'signature-' ) !== false ) {
-				// We have signature field.
-				$is_condition_fulfilled = false;
-				$signature_id           = 'field-' . $element_id;
-
-				if ( isset( $form_data[ $signature_id ] ) ) {
-					$signature_data = 'ctlSignature' . $form_data[ $signature_id ] . '_data';
-
-					if ( isset( $form_data[ $signature_data ] ) ) {
-						$is_condition_fulfilled = self::is_condition_fulfilled( $form_data[ $signature_data ], $condition );
-					}
-				}
-			} elseif ( stripos( $element_id, 'calculation-' ) !== false || stripos( $element_id, 'stripe-' ) !== false ) {
-				$is_condition_fulfilled = false;
-				if ( isset( $pseudo_submitted_data[ $element_id ] ) ) {
-					$is_condition_fulfilled = self::is_condition_fulfilled( $pseudo_submitted_data[ $element_id ], $condition );
-				}
-			} elseif ( stripos( $element_id, 'checkbox-' ) !== false || stripos( $element_id, 'radio-' ) !== false ) {
-				$is_condition_fulfilled = self::is_condition_fulfilled( $form_data[ $element_id ], $condition );
-			} elseif ( ! isset( $form_data[ $element_id ] ) ) {
-				$is_condition_fulfilled = false;
-			} else {
-				$is_condition_fulfilled = self::is_condition_fulfilled( $form_data[ $element_id ], $condition );
-			}
-
+			$is_condition_fulfilled = Forminator_Field::is_condition_matched( $condition, $form_data, $pseudo_submitted_data );
 			if ( $is_condition_fulfilled ) {
 				$condition_fulfilled ++;
 			}
@@ -616,45 +590,13 @@ class Forminator_CForm_Front_Mail extends Forminator_Mail {
 	 *
 	 * @since 1.0
 	 *
-	 * @param $routing
+	 * @param $condition
 	 * @param $form_data
 	 * @param $pseudo_submitted_data
 	 *
 	 * @return bool
 	 */
-	public function is_routing( $routing, $form_data, $module, $pseudo_submitted_data = array() ) {
-
-		// empty conditions.
-		if ( empty( $routing ) ) {
-			return false;
-		}
-
-		$element_id = $routing['element_id'];
-		if ( stripos( $element_id, 'signature-' ) !== false ) {
-			// We have signature field.
-			$is_condition_fulfilled = false;
-			$signature_id           = 'field-' . $element_id;
-
-			if ( isset( $form_data[ $signature_id ] ) ) {
-				$signature_data = 'ctlSignature' . $form_data[ $signature_id ] . '_data';
-
-				if ( isset( $form_data[ $signature_data ] ) ) {
-					$is_condition_fulfilled = self::is_condition_fulfilled( $form_data[ $signature_data ], $routing );
-				}
-			}
-			return $is_condition_fulfilled;
-		} elseif ( stripos( $element_id, 'calculation-' ) !== false || stripos( $element_id, 'stripe-' ) !== false ) {
-			$is_condition_fulfilled = false;
-			if ( isset( $pseudo_submitted_data[ $element_id ] ) ) {
-				$is_condition_fulfilled = self::is_condition_fulfilled( $pseudo_submitted_data[ $element_id ], $routing );
-			}
-			return $is_condition_fulfilled;
-		} elseif ( stripos( $element_id, 'checkbox-' ) !== false || stripos( $element_id, 'radio-' ) !== false ) {
-			return self::is_condition_fulfilled( $form_data[ $element_id ], $routing );
-		} elseif ( ! isset( $form_data[ $element_id ] ) ) {
-			return false;
-		} else {
-			return self::is_condition_fulfilled( $form_data[ $element_id ], $routing );
-		}
+	public function is_routing( $condition, $form_data, $module, $pseudo_submitted_data = array() ) {
+		return Forminator_Field::is_condition_matched( $condition, $form_data, $pseudo_submitted_data );
 	}
 }

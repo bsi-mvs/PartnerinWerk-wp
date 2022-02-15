@@ -17,7 +17,14 @@ $image_empty2x = forminator_plugin_url() . 'assets/images/forminator-summary@2x.
 
 		<div class="sui-box-body wpmudev-popup-form">
 
-			<div class="sui-notice sui-notice-error wpmudev-ajax-error-placeholder sui-hidden"><p></p></div>
+			<div
+				role="alert"
+				id="wpmudev-ajax-error-placeholder"
+				class="sui-notice sui-notice-error"
+				aria-live="assertive"
+			>
+				<!-- Nothing should be placed here -->
+			</div>
 
 			<?php // ROW: Forms. ?>
 			<div class="sui-box-settings-row">
@@ -33,7 +40,7 @@ $image_empty2x = forminator_plugin_url() . 'assets/images/forminator-summary@2x.
 						<p class="sui-description" style="margin-bottom: 10px; color: #333; font-weight: bold;"><?php esc_html_e( 'Unsupported form fields and settings', 'forminator' ); ?></p>
 
 						<ol class="fui-dismiss-list">
-							<li><?php printf( esc_html__( "%1\$s1. Quiz field:%2\$s Forminator doesn't have a built-in quiz field, however, you can enable Google's reCAPTCHA v3 and Honeypot protection on your imported forms.", 'forminator' ), '<strong>', '</strong>' ); ?></li>
+							<li><?php printf( esc_html__( "%1\$s1. Quiz field:%2\$s Forminator doesn't have a built-in quiz field, however, you can enable CAPTCHA and Honeypot protection on your imported forms.", 'forminator' ), '<strong>', '</strong>' ); ?></li>
 							<li><?php printf( esc_html__( "%1\$s2. ConstantContact:%2\$s Forminator doesn't integrate directly with ConstantContact. However, you can use %3\$sZapier integration%4\$s to send your leads to ConstantContact.", 'forminator' ), '<strong>', '</strong>', '<a href="https://wpmudev.com/blog/zapier-wordpress-form-integrations/" target="_blank">', '</a>' ); ?></li>
 							<li><?php printf( esc_html__( "%1\$s3. reCAPTCHA v3 integration:%2\$s At this stage, Forminator can't import your existing reCAPTCHA integration. You can set this up manually on your imported forms once they are transferred.", 'forminator' ), '<strong>', '</strong>' ); ?></li>
 							<li><?php printf( esc_html__( "%1\$s4. Additional settings:%2\$s Forminator doesn't support CF7’s additional form settings.", 'forminator' ), '<strong>', '</strong>' ); ?></li>
@@ -86,23 +93,19 @@ $image_empty2x = forminator_plugin_url() . 'assets/images/forminator-summary@2x.
 									<label class="sui-label"><?php esc_html_e( 'Choose Forms', 'forminator' ); ?></label>
 
 									<select id="forminator-choose-import-form" class="sui-select" multiple="multiple" name="cf7-form-id[]">
-
 										<?php
 										if ( ! empty( $forms ) ) :
 
 											foreach ( $forms as $key => $value ) {
-
 												echo sprintf(
 													'<option value="%f">%s</option>',
 													absint( $value->ID ),
 													esc_html( $value->post_title )
 												);
-
 											}
 
 										endif;
 										?>
-
 									</select>
 
 								</div>
@@ -344,8 +347,13 @@ $image_empty2x = forminator_plugin_url() . 'assets/images/forminator-summary@2x.
 
 					<?php if ( ! $is_addons ) { ?>
 
-						<div class="sui-notice">
-							<p><?php esc_html_e( "We couldn't find any supported add-ons.", 'forminator' ); ?></p>
+						<div class="sui-notice sui-notice-warning sui-notice-active" style="display: block;">
+							<div class="sui-notice-content">
+								<div class="sui-notice-message">
+									<span class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></span>
+									<p><?php esc_html_e( "We couldn't find any supported add-ons.", 'forminator' ); ?></p>
+								</div>
+							</div>
 						</div>
 
 					<?php } ?>

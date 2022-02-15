@@ -59,9 +59,8 @@ abstract class Forminator_Admin_Page {
 				forminator_get_admin_cap(),
 				$page_slug,
 				$render ? array( $this, 'render' ) : null,
-				'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNDAiIGhlaWdodD0iMzAyIj48ZyBmaWxsPSIjODg4IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0yMjkuMjc4IDI0Ljg3OGwtMjAuMjEtMjAuMjE3di0uMDAzYy0zLjM1Ni0zLjMzOC04Ljc3OC0zLjMzNS0xMi4xMS4wMDNMNjQuNTIzIDEzNy4xMDFhOC41MDcgOC41MDcgMCAwIDAtMi41MDggNi4wNTJjMCAyLjI4OC44OTIgNC40NCAyLjUwOCA2LjA1MmwyMC4yMTEgMjAuMjE3YTguNTQgOC41NCAwIDAgMCA2LjA1MiAyLjUwNCA4LjU0IDguNTQgMCAwIDAgNi4wNTctMi41MDRsMTMyLjQzNS0xMzIuNDRjMy4zMzgtMy4zMzkgMy4zMzgtOC43NjYgMC0xMi4xMDRtMTA4LjIyMyAyMS43OTRsLTIwLjIxNy0yMC4yMTRjLTMuMzMyLTMuMzM4LTguNzcxLTMuMzM4LTEyLjEwMyAwTDEyOS41MjYgMjAyLjEwN2MtMy4zMzggMy4zMzgtMy4zMzggOC43NjggMCAxMi4xMDZsMjAuMjE3IDIwLjIxNGE4LjUyOCA4LjUyOCAwIDAgMCA2LjA1MiAyLjUwMmMyLjE5IDAgNC4zODUtLjgzMyA2LjA1LTIuNTAyTDMzNy41MDIgNTguNzc1YzMuMzMyLTMuMzM1IDMuMzMyLTguNzYyIDAtMTIuMTAzTTUxLjEyIDIxMC44NTZjLTEuNDQyLTEuNDM4LTMuNDY1LTIuMDM0LTUuNDc3LTEuNTQ0YTUuNzkgNS43OSAwIDAgMC00LjE4NSAzLjg1OWwtMTcuODkzIDU0Ljg2NGE1Ljc5NiA1Ljc5NiAwIDAgMCAxLjQxNiA1LjkyOSA1LjggNS44IDAgMCAwIDUuOTI5IDEuNDJsNTQuODcyLTE3Ljg5NXYtLjAwM2E1Ljc4NCA1Ljc4NCAwIDAgMCAzLjg1Ni00LjE4MiA1Ljc5MSA1Ljc5MSAwIDAgMC0xLjU1LTUuNDc1bC0zNi45NjctMzYuOTczem0yNDguNzIxLTc2Ljc4M2wtMzMuMTA2IDMzLjEwNmE4LjMxMSA4LjMxMSAwIDAgMC0yLjMzNSA0LjUxNmMtOS43OTYgNTUuNDA0LTU3LjczIDk1LjYxOC0xMTMuOTc5IDk1LjYxOC01LjYwNSAwLTExLjMwNi0uNDYzLTE3LjQxOS0xLjQxMy0yLjY1OC0uNDIzLTUuNDU1LjQ2Ni03LjM3MiAyLjM4M2wtMTQuODc5IDE0Ljg3OGMtMi4yMTggMi4yMjEtMy4wMzcgNS4zNTItMi4xOSA4LjM4MS44NDcgMy4wMzQgMy4xODIgNS4yOTEgNi4yNDEgNi4wMzhhMTUwLjY3NCAxNTAuNjc0IDAgMCAwIDM1LjYyIDQuMjcxYzgyLjk0NSAwIDE1MC40MjgtNjcuNDggMTUwLjQyOC0xNTAuNDI1IDAtMy40MzYtLjI0Ni02LjgxMy0uNDktMTAuMTg3bC0uNTE5LTcuMTY2ek0xNjIuNDU1IDEuNWwtMzUuNjQyIDM1LjYxNGMtMS4yNDQgMS4yMS0zLjAwNCAxLjY5OS00LjcxNyAyLjEwNC00Ni4zNjcgMTAuOTY4LTg2LjM4IDUzLjk3LTg3LjQ2NyAxMDcuOTUtLjExMiA1LjYwNC0uMDk0IDExLjE1My43NDkgMTcuMjgyLjM3NiAyLjY2NS0uNTYxIDUuNDQ2LTIuNTExIDcuMzNMMTcuNzMgMTg2LjM5NWMtMi4yNiAyLjE4LTQuOTE1IDMuMDQ4LTguNDE4IDIuMDQ0LTMuNTAzLTEuMDA0LTUuNC0zLjM3Mi02LjA5My02LjQ0My0yLjYzLTExLjY3OC0zLjU5My0yMy43MDItMy4xLTM1Ljg5M0MzLjQ3NiA2My4yMzUgNzAuMDY1IDIuNjcgMTQ3LjAyMyAxLjAwOGMzLjQzNi0uMDc0IDMuODU1LS4xMzQgNy4yMjUuMTdsOC4yMDguMzIyeiIvPjwvZz48L3N2Zz4='
-				// 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48cGF0aCBmaWxsPSIjODg4IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNDkuNDQ2IDI2Ny42MmExMTcuNzYgMTE3Ljc2IDAgMCAxLTI3Ljg1LTMuMzQgNi42NDMgNi42NDMgMCAwIDEtNC44ODEtNC43MmMtLjY2MS0yLjM2OS0uMDIxLTQuODE4IDEuNzEzLTYuNTU0bDExLjYzNC0xMS42MzRjMS40OTgtMS40OTkgMy42ODYtMi4xOTMgNS43NjUtMS44NjMgNC43NzkuNzQzIDkuMjM1IDEuMTA1IDEzLjYxOSAxLjEwNSA0My45ODIgMCA4MS40NjItMzEuNDQ0IDg5LjEyMy03NC43NjVhNi40OTIgNi40OTIgMCAwIDEgMS44MjUtMy41M2wyNS44ODUtMjUuODg3LjQwNiA1LjYwM2MuMTkzIDIuNjQuMzg0IDUuMjguMzg0IDcuOTY1IDAgNjQuODU3LTUyLjc2NiAxMTcuNjItMTE3LjYyMyAxMTcuNjJtLTQ2LjYzLTEwMS41OWE2LjY4NCA2LjY4NCAwIDAgMS00LjczMi0xLjk1OGwtMTUuODAyLTE1LjgwOGE2LjY0IDYuNjQgMCAwIDEtMS45NjItNC43MzJjMC0xLjc4Ny42OTctMy40NjggMS45NjItNC43MzJsMTAzLjU1LTEwMy41NTdjMi42MDctMi42MSA2Ljg0Ny0yLjYxMiA5LjQ3LS4wMDJ2LjAwMmwxNS44MDMgMTUuODA3YTYuNyA2LjcgMCAwIDEgMCA5LjQ2NUwxMDcuNTUzIDE2NC4wNzJhNi42ODYgNi42ODYgMCAwIDEtNC43MzcgMS45NThtLS44OTcgNjMuNjNhNC41MjQgNC41MjQgMCAwIDEtMy4wMTUgMy4yN3YuMDAybC00Mi45MDUgMTMuOTkzYTQuNTI4IDQuNTI4IDAgMCAxLTQuNjM2LTEuMTExIDQuNTI4IDQuNTI4IDAgMCAxLTEuMTA3LTQuNjM2bDEzLjk5LTQyLjg5OWE0LjUyMiA0LjUyMiAwIDAgMSAzLjI3My0zLjAxNmMxLjU3Mi0uMzg0IDMuMTU0LjA4MiA0LjI4MiAxLjIwNmwyOC45MDcgMjguOTFhNC41MjggNC41MjggMCAwIDEgMS4yMSA0LjI4MW0tNjEtNTAuNDM0YTYuNzk1IDYuNzk1IDAgMCAxLTEuOTIxLS4yNzljLTIuMzg4LS43MS00LjEyMy0yLjU4Ni00LjYzNi01LjAxNS0xLjY3OC03LjkzOS0yLjUzMi0xNS45OS0yLjUzMi0yMy45MzIgMC02NC44NTcgNTIuNzYtMTE3LjYyIDExNy42MTctMTE3LjYyLjg5NCAwIDEuNzc0LjA2IDIuNjUuMTIuNTQ5LjAzNyAxLjA5OC4wNzYgMS42NS4wOTZsNS4xMjYuMTgxLTI3LjQyIDI3LjQyYTYuNTk3IDYuNTk3IDAgMCAxLTMuMTE2IDEuNzM2aC0uMDA1Qzg3LjQxNCA3MS43MSA1OC44MzQgMTA3LjkyNSA1OC44MzQgMTUwYzAgMy4wNTUuMjA2IDYuMjgzLjYyNCA5Ljg3MWE2LjY1OCA2LjY1OCAwIDAgMS0xLjkwNCA1LjUwM2wtMTEuODg3IDExLjg4N2E2LjcxNSA2LjcxNSAwIDAgMS00Ljc1IDEuOTY1bTI0NS4yNTgtOTIuMTJMMTU4LjM3OSAyMTQuOWE2LjY2OCA2LjY2OCAwIDAgMS00LjczMSAxLjk1NiA2LjY2OCA2LjY2OCAwIDAgMS00LjczMy0xLjk1NmwtMTUuODA4LTE1LjgwNWE2LjcgNi43IDAgMCAxIDAtOS40NjZMMjY2LjgwNiA1NS45MzNDMjM5LjMxIDIxLjgzNCAxOTcuMjE1IDAgMTUwIDAgNjcuMTU3IDAgMCA2Ny4xNTcgMCAxNTBjMCA4Mi44NDIgNjcuMTU3IDE1MCAxNTAgMTUwczE1MC02Ny4xNTggMTUwLTE1MGMwLTIyLjQ2Ny00Ljk3My00My43NjItMTMuODI1LTYyLjg5NCIvPjwvc3ZnPg=='.
-			);
+				$this->get_menu_icon()
+            );
 		} else {
 			$this->page_id = add_submenu_page(
 				$parent,
@@ -244,7 +243,6 @@ abstract class Forminator_Admin_Page {
 					<li><a href="https://wpmudev.com/hub2/support/" target="_blank"><?php esc_html_e( 'Support', 'forminator' ); ?></a></li>
 					<li><a href="https://wpmudev.com/docs/" target="_blank"><?php esc_html_e( 'Docs', 'forminator' ); ?></a></li>
 					<li><a href="https://wpmudev.com/hub2/community/" target="_blank"><?php esc_html_e( 'Community', 'forminator' ); ?></a></li>
-					<li><a href="https://wpmudev.com/academy/" target="_blank"><?php esc_html_e( 'Academy', 'forminator' ); ?></a></li>
 					<li><a href="https://wpmudev.com/terms-of-service/" target="_blank"><?php esc_html_e( 'Terms of Service', 'forminator' ); ?></a></li>
 					<li><a href="https://incsub.com/privacy-policy/" target="_blank"><?php esc_html_e( 'Privacy Policy', 'forminator' ); ?></a></li>
 				</ul>
@@ -298,8 +296,6 @@ abstract class Forminator_Admin_Page {
 		<main class="sui-wrap <?php echo $accessibility_enabled ? 'sui-color-accessible' : ''; ?> <?php echo esc_attr( 'wpmudev-forminator-' . $this->page_slug ); ?>">
 
 			<?php
-			//$this->black_friday_notice();
-
 			$this->render_header();
 
 			$this->render_page_content();
@@ -538,55 +534,43 @@ abstract class Forminator_Admin_Page {
 		}
 
 		?>
-			<div class="sui-notice sui-notice-warning">
-				<p><?php esc_html_e( 'Forminator\'s CSS style cannot be loaded because your website\'s address is configured in WordPress to use HTTP instead of HTTPS. This may cause some web content, including Forminator forms, to display incorrectly.', 'forminator' ); ?></p>
-				<p><?php echo wp_kses_post( $fix_notice ); ?></p>
+			<div
+				role="alert"
+				class="sui-notice sui-notice-yellow sui-active"
+				style="display: block; text-align: left;"
+				aria-live="assertive"
+			>
+
+				<div class="sui-notice-content">
+
+					<div class="sui-notice-message">
+
+						<span class="sui-notice-icon sui-icon-info" aria-hidden="true"></span>
+
+						<p><?php esc_html_e( 'Forminator\'s CSS style cannot be loaded because your website\'s address is configured in WordPress to use HTTP instead of HTTPS. This may cause some web content, including Forminator forms, to display incorrectly.', 'forminator' ); ?></p>
+
+					</div>
+
+				</div>
+
 			</div>
 		<?php
 	}
 
 	/**
-	 * Show black friday notice.
+	 * Forminator icon svg image.
+	 *
+	 * @return string
 	 */
-//	private function black_friday_notice() {
-//		if ( get_site_option( 'forminator_dismiss_black_friday' ) ) {
-//			return;
-//		}
-//
-//		// Before 01 November.
-//		if ( date_create( date_i18n( 'd-m-Y' ) ) < date_create( date_i18n( '01-11-Y' ) ) ) {
-//			return;
-//		}
-//
-//		if ( ! is_main_site() || ! forminator_is_show_branding() || ! is_wpmu_dev_admin() ) {
-//			return;
-//		}
-//
-//		// After 6 December.
-//		if ( date_create( date_i18n( 'd-m-Y' ) ) >= date_create( date_i18n( '06-12-Y' ) ) ) {
-//			update_site_option( 'forminator_dismiss_black_friday', true );
-//			return;
-//		}
-//
-//		wp_enqueue_script(
-//			'forminator-black-friday',
-//			forminator_plugin_url() . 'assets/js/black-friday.js',
-//			array(
-//				'jquery',
-//				'react',
-//				'react-dom',
-//			),
-//			FORMINATOR_VERSION,
-//			true
-//		);
-//
-//		$strings = array(
-//			'link' => 'https://wpmudev.com/black-friday/?coupon=BFP-2021&utm_source=forminator_' . ( FORMINATOR_PRO ? 'pro' : 'free' ) . '&utm_medium=referral&utm_campaign=bf2021',
-//		);
-//
-//		wp_localize_script( 'forminator-black-friday', 'forminator_bf', $strings );
-//
-//		echo '<div id="forminator-black-friday"></div>';
-//	}
+	private function get_menu_icon() {
+		ob_start();
+		?>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5067 1.79874H16.2222C16.6937 1.79874 17.1459 1.99053 17.4793 2.33187C17.8127 2.67321 18 3.13614 18 3.61887V18.1799C18 18.6626 17.8127 19.1255 17.4793 19.4669C17.1459 19.8082 16.6937 20 16.2222 20H3.77778C3.30628 20 2.85412 19.8082 2.52072 19.4669C2.18733 19.1255 2 18.6626 2 18.1799V3.61887C2 3.13614 2.18733 2.67321 2.52072 2.33187C2.85412 1.99053 3.30628 1.79874 3.77778 1.79874H7.49333C7.68017 1.27168 8.02098 0.816284 8.46946 0.494469C8.91793 0.172654 9.45234 0 10 0C10.5477 0 11.0821 0.172654 11.5305 0.494469C11.979 0.816284 12.3198 1.27168 12.5067 1.79874ZM10.4938 1.9521C10.3476 1.8521 10.1758 1.79874 10 1.79874C9.76425 1.79874 9.53817 1.89464 9.37147 2.0653C9.20477 2.23597 9.11111 2.46744 9.11111 2.7088C9.11111 2.8888 9.16323 3.06472 9.2609 3.21438C9.35858 3.36404 9.49741 3.48072 9.65983 3.5496C9.82225 3.61848 10.001 3.63648 10.1734 3.60137C10.3458 3.56625 10.5042 3.47958 10.6285 3.3523C10.7528 3.22503 10.8375 3.06286 10.8718 2.88633C10.9061 2.70979 10.8885 2.52682 10.8212 2.36053C10.754 2.19424 10.64 2.0521 10.4938 1.9521ZM3.77778 3.61887V18.1799H16.2222V3.61887H13.5556V5.43899H6.44444V3.61887H3.77778ZM6.44442 10.8987H13.5555C13.7913 10.8987 14.0174 10.9946 14.1841 11.1653C14.3508 11.3359 14.4444 11.5674 14.4444 11.8087C14.4444 12.0501 14.3508 12.2816 14.1841 12.4522C14.0174 12.6229 13.7913 12.7188 13.5555 12.7188H6.44442C6.20867 12.7188 5.98259 12.6229 5.8159 12.4522C5.6492 12.2816 5.55553 12.0501 5.55553 11.8087C5.55553 11.5674 5.6492 11.3359 5.8159 11.1653C5.98259 10.9946 6.20867 10.8987 6.44442 10.8987ZM13.5555 8.16849H6.44442C6.20867 8.16849 5.98259 8.26438 5.8159 8.43505C5.6492 8.60572 5.55553 8.83719 5.55553 9.07855C5.55553 9.31992 5.6492 9.55138 5.8159 9.72205C5.98259 9.89272 6.20867 9.98862 6.44442 9.98862H13.5555C13.7913 9.98862 14.0174 9.89272 14.1841 9.72205C14.3508 9.55138 14.4444 9.31992 14.4444 9.07855C14.4444 8.83719 14.3508 8.60572 14.1841 8.43505C14.0174 8.26438 13.7913 8.16849 13.5555 8.16849ZM10 13.6289H13.5556C13.7913 13.6289 14.0174 13.7248 14.1841 13.8954C14.3508 14.0661 14.4444 14.2976 14.4444 14.5389C14.4444 14.7803 14.3508 15.0118 14.1841 15.1824C14.0174 15.3531 13.7913 15.449 13.5556 15.449H10C9.76425 15.449 9.53817 15.3531 9.37148 15.1824C9.20478 15.0118 9.11111 14.7803 9.11111 14.5389C9.11111 14.2976 9.20478 14.0661 9.37148 13.8954C9.53817 13.7248 9.76425 13.6289 10 13.6289Z" fill="#F0F6FC"/>
+        </svg>
+		<?php
+		$svg = ob_get_clean();
 
+		return 'data:image/svg+xml;base64,' . base64_encode( $svg );
+	}
 }

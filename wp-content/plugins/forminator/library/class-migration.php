@@ -190,6 +190,13 @@ class Forminator_Migration {
 		 */
 		$field = self::migrate_payment_plan_field( $field );
 
+		/**
+		 * Migrate captcha provider field
+		 *
+		 * @since 1.15.8
+		 */
+		$field = self::migrate_captcha_provider_field( $field );
+
 		return $field;
 	}
 
@@ -1003,6 +1010,23 @@ class Forminator_Migration {
 			}
 
 			$field['payments'][] = $payment_plan;
+		}
+
+		return $field;
+	}
+
+	/**
+	 * Migrate captcha field
+	 *
+	 * @param $field
+	 *
+	 * @return mixed
+	 */
+	public static function migrate_captcha_provider_field( $field ) {
+		if ( 'captcha' === $field['type'] ) {
+			if ( ! isset( $field['captcha_provider'] ) ) {
+				$field['captcha_provider'] = 'recaptcha';
+			}
 		}
 
 		return $field;

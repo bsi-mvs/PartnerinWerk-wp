@@ -229,10 +229,10 @@ class Forminator_CForm_Front extends Forminator_Render_Form {
 				$wrapper .= '</p>';
 
 				global $interim_login;
-		if ( ! $interim_login ) {
-			$link_back_to = sprintf( _x( '&larr; Back to %s', 'forminator' ), get_bloginfo( 'title', 'display' ) );
-			$wrapper     .= '<p class="forminator-authentication-backtolog"><a class="auth-back" href="#">' . $link_back_to . '</a></p>';
-		}
+				if ( ! $interim_login ) {
+					$link_back_to = sprintf( _x( '&larr; Back to %s', 'forminator' ), get_bloginfo( 'title', 'display' ) );
+					$wrapper .= '<p class="forminator-authentication-backtolog"><a class="auth-back" href="#">' . $link_back_to . '</a></p>';
+				}
 
 			$wrapper .= '</div>';
 
@@ -266,11 +266,21 @@ class Forminator_CForm_Front extends Forminator_Render_Form {
 			$global_language  = ! empty( $captcha_language ) ? $captcha_language : $site_language;
 			$language         = Forminator_Field::get_property( 'language', $first_captcha, $global_language );
 			$language         = ! empty( $language ) ? $language : $global_language;
-			$src              = 'https://www.google.com/recaptcha/api.js?hl=' . $language . '&onload=forminator_render_captcha&render=explicit';
+
+			// Check whether provider is reCaptcha or hCaptcha
+			if ( $this->is_recaptcha() ) {
+				$src = 'https://www.google.com/recaptcha/api.js?hl=' . $language . '&onload=forminator_render_captcha&render=explicit';
+				$script_tag = 'forminator-google-recaptcha';
+				$script_load = 'grecaptcha';
+			} else {
+				$src = 'https://js.hcaptcha.com/1/api.js?hl=' . $language . '&onload=forminator_render_hcaptcha&render=explicit&recaptchacompat=off';
+				$script_tag = 'forminator-hcaptcha';
+				$script_load = 'hcaptcha';
+			}
 
 			if ( ! $is_ajax_load ) {
 				wp_enqueue_script(
-					'forminator-google-recaptcha',
+					$script_tag,
 					$src,
 					array( 'jquery' ),
 					FORMINATOR_VERSION,
@@ -278,10 +288,10 @@ class Forminator_CForm_Front extends Forminator_Render_Form {
 				);
 			} else {
 				// load later via ajax to avoid cache.
-				$this->scripts['forminator-google-recaptcha'] = array(
+				$this->scripts[ $script_tag ] = array(
 					'src'  => $src,
 					'on'   => 'window',
-					'load' => 'grecaptcha',
+					'load' => $script_load,
 				);
 			}
 		}
@@ -1405,14 +1415,11 @@ class Forminator_CForm_Front extends Forminator_Render_Form {
 		// If not using the new "submission-behaviour" setting, set it according to the previous settings.
 		if ( ! isset( $this->model->settings['submission-behaviour'] ) ) {
 			$redirect = ( isset( $this->model->settings['redirect'] ) && filter_var( $this->model->settings['redirect'], FILTER_VALIDATE_BOOLEAN ) );
-			$thankyou = ( isset( $this->model->settings['thankyou'] ) && filter_var( $this->model->settings['thankyou'], FILTER_VALIDATE_BOOLEAN ) );
 
-			if ( ! $redirect && ! $thankyou ) {
-				$this->model->settings['submission-behaviour'] = 'behaviour-thankyou';
-			} elseif ( $thankyou ) {
-				$this->model->settings['submission-behaviour'] = 'behaviour-thankyou';
-			} elseif ( $redirect ) {
+			if ( $redirect ) {
 				$this->model->settings['submission-behaviour'] = 'behaviour-redirect';
+			} else {
+				$this->model->settings['submission-behaviour'] = 'behaviour-thankyou';
 			}
 		}
 
@@ -1539,6 +1546,26 @@ class Forminator_CForm_Front extends Forminator_Render_Form {
 		if ( ! empty( $fields ) ) {
 			foreach ( $fields as $field ) {
 				if ( 'captcha' === $field['type'] ) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check if form has a recaptcha field
+	 *
+	 * @since 1.15.5
+	 * @return bool
+	 */
+	public function is_recaptcha() {
+		$fields = $this->get_fields();
+
+		if ( ! empty( $fields ) ) {
+			foreach ( $fields as $field ) {
+				if ( "captcha" === $field["type"] && 'recaptcha' === $field["captcha_provider"] ) {
 					return true;
 				}
 			}
@@ -1860,7 +1887,6 @@ class Forminator_CForm_Front extends Forminator_Render_Form {
 			$class .= ' forminator-quiz-start';
 			$button = $this->get_start_button_text( $this->lead_model->settings );
 		}
-		$settings = $this->get_form_settings();
 
 		$custom_class = $this->get_submit_custom_clas();
 
@@ -1873,13 +1899,6 @@ class Forminator_CForm_Front extends Forminator_Render_Form {
 		$html .= '<div class="forminator-col">';
 
 		$html .= '<div class="forminator-field">';
-
-		if ( 'behaviour-redirect' === $settings['submission-behaviour'] ) {
-			$html .= sprintf(
-				'<span class="forminator-screen-reader-only" role="note">%s</span>',
-				esc_html__( 'This form will redirect you to another page once submitted.', 'forminator' )
-			);
-		}
 
 		$html .= sprintf( '<button class="%s">', $class );
 
@@ -2546,7 +2565,7 @@ class Forminator_CForm_Front extends Forminator_Render_Form {
 						return true;
 					} elseif ( isset( $field[ $setting_name ] ) ) {
 						$field_settings_value = $field[ $setting_name ];
-						if ( is_bool( $setting_value ) ) {
+						if ( is_bool( $field_settings_value ) ) {
 							// cast to bool.
 							$field_settings_value = filter_var( $field[ $setting_name ], FILTER_VALIDATE_BOOLEAN );
 						}
@@ -2601,17 +2620,6 @@ class Forminator_CForm_Front extends Forminator_Render_Form {
 			return array();
 		}
 
-		$autoclose      = true;
-		$autoclose_time = 5000;
-
-		if ( isset( $form_properties['settings']['autoclose'] ) ) {
-			$autoclose = $form_properties['settings']['autoclose'];
-		}
-
-		if ( isset( $form_properties['settings']['autoclose-time'] ) && ! empty( $form_properties['settings']['autoclose-time'] ) ) {
-			$autoclose_time = $form_properties['settings']['autoclose-time'] * 1000;
-		}
-
 		$options = array(
 			'form_type'           => $this->get_form_type(),
 			'inline_validation'   => filter_var( $form_properties['inline_validation'], FILTER_VALIDATE_BOOLEAN ),
@@ -2638,8 +2646,6 @@ class Forminator_CForm_Front extends Forminator_Render_Form {
 				'form_has_error'               => __( 'Please correct the errors before submission.', 'forminator' ),
 			),
 			'payment_require_ssl' => $this->model->is_payment_require_ssl(),
-			'fadeout'             => $autoclose,
-			'fadeout_time'        => $autoclose_time,
 			'has_loader'          => $this->form_has_loader( $form_properties ),
 			'loader_label'        => $this->get_loader_label( $form_properties ),
 			'calcs_memoize_time'  => $this->get_memoize_time(),

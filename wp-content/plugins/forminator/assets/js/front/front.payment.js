@@ -323,15 +323,7 @@
 			}
 		},
 
-		focus_to_element: function ($element, fadeout) {
-			fadeout = fadeout || false;
-
-			if( fadeout ) {
-				fadeout = this.settings.fadeout;
-			}
-
-			var fadeout_time = this.settings.fadeout_time;
-
+		focus_to_element: function ($element) {
 			// force show in case its hidden of fadeOut
 			$element.show();
 			$('html,body').animate({scrollTop: ($element.offset().top - ($(window).height() - $element.outerHeight(true)) / 2)}, 500, function () {
@@ -340,10 +332,6 @@
 				}
 
 				$element.focus();
-
-				if (fadeout) {
-					$element.show().delay( fadeout_time ).fadeOut('slow');
-				}
 			});
 		},
 
@@ -537,7 +525,7 @@
 			if (fontFamily && customFonts) {
 				stripeObject.fonts = [
 					{
-						cssSrc: 'https://fonts.googleapis.om/css?family=' + fontFamily,
+						cssSrc: 'https://fonts.googleapis.com/css?family=' + fontFamily,
 					}
 				];
 			}

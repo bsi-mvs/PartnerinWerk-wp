@@ -198,10 +198,7 @@ class Forminator_Addon_Hubspot_Form_Hooks extends Forminator_Addon_Form_Hooks_Ab
 						$meta_value    = self::find_meta_value_from_entry_fields( $element_id, $form_entry_fields );
 						$element_value = Forminator_Form_Entry_Model::meta_value_to_string( 'stripe', $meta_value );
 					} elseif ( isset( $submitted_data[ $element_id ] ) && ! empty( $submitted_data[ $element_id ] ) ) {
-						$element_value = $submitted_data[ $element_id ];
-						if ( is_array( $element_value ) ) {
-							$element_value = implode( ',', $element_value );
-						}
+						$element_value = self::get_field_value( $element_id, $submitted_data[ $element_id ] );
 					}
 					if ( isset( $element_value ) ) {
 						$args[ $common_field ] = $element_value;

@@ -363,7 +363,7 @@ class Forminator_Admin_Addons_page {
 			esc_html__( 'Use conditional logic to process payments based on form input field values.', 'forminator' ),
 		);
 		$stripe_addon->url               = (object) array(
-			'thumbnail' => 'https://wpmudev.com/wp-content/uploads/2021/08/forminator-stripe-logo.png',
+			'thumbnail' => esc_url( forminator_plugin_url() . 'assets/images/forminator-stripe-logo.png' ),
 		);
 		$stripe_addon->changelog         = array(
 			array(

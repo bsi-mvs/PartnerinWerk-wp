@@ -581,6 +581,23 @@ function forminator_has_v3_captcha_settings() {
 }
 
 /**
+ * Return if hCaptcha keys are filled
+ *
+ * @since 1.15.5
+ * @return bool
+ */
+function forminator_has_hcaptcha_settings() {
+	$key    = get_option( 'forminator_hcaptcha_key', false );
+	$secret = get_option( 'forminator_hcaptcha_secret', false );
+
+	if ( empty( $key ) || empty( $secret ) ) {
+		return false;
+	}
+
+	return true;
+}
+
+/**
  * Return if Stripe is is_connected
  *
  * @since 1.7
@@ -991,7 +1008,7 @@ function forminator_get_poll_chart_colors( $poll_id = null ) {
 }
 
 /**
- * Return reCAPTCHA languages
+ * Return CAPTCHA languages
  *
  * @since 1.5.4
  * @return array
@@ -1163,49 +1180,50 @@ function forminator_reset_settings() {
 	 * @see forminator_delete_custom_options()
 	 */
 
-	delete_option( 'forminator_pagination_listings' );
-	delete_option( 'forminator_pagination_entries' );
-	delete_option( 'forminator_captcha_key' );
-	delete_option( 'forminator_captcha_secret' );
-	delete_option( 'forminator_v2_invisible_captcha_key' );
-	delete_option( 'forminator_v2_invisible_captcha_secret' );
-	delete_option( 'forminator_v3_captcha_key' );
-	delete_option( 'forminator_v3_captcha_secret' );
-	delete_option( 'forminator_captcha_language' );
-	delete_option( 'forminator_captcha_theme' );
-	delete_option( 'forminator_welcome_dismissed' );
-	delete_option( 'forminator_version' );
-	delete_option( 'forminator_retain_votes_interval_number' );
-	delete_option( 'forminator_retain_votes_interval_unit' );
-	delete_option( 'forminator_retain_submissions_interval_number' );
-	delete_option( 'forminator_retain_submissions_interval_unit' );
-	delete_option( 'forminator_enable_erasure_request_erase_form_submissions' );
-	delete_option( 'forminator_form_privacy_settings' );
-	delete_option( 'forminator_poll_privacy_settings' );
-	delete_option( 'forminator_retain_ip_interval_number' );
-	delete_option( 'forminator_retain_ip_interval_unit' );
-	delete_option( 'forminator_retain_poll_submissions_interval_number' );
-	delete_option( 'forminator_retain_poll_submissions_interval_unit' );
-	delete_option( 'forminator_posts_map' );
-	delete_option( 'forminator_module_enable_load_ajax' );
-	delete_option( 'forminator_module_use_donotcachepage' );
-	delete_option( 'forminator_retain_quiz_submissions_interval_number' );
-	delete_option( 'forminator_retain_quiz_submissions_interval_unit' );
-	delete_option( 'forminator_dashboard_settings' );
-	delete_option( 'forminator_sender_email_address' );
-	delete_option( 'forminator_sender_name' );
-	delete_option( 'forminator_enable_accessibility' );
-	delete_option( 'forminator_entries_export_schedule' );
-	delete_option( 'forminator_paypal_api_mode' );
-	delete_option( 'forminator_paypal_secret' );
-	delete_option( 'forminator_currency' );
-	delete_option( 'forminator_exporter_log' );
-	delete_option( 'forminator_uninstall_clear_data' );
-	delete_option( 'forminator_stripe_configuration' );
-	delete_option( 'forminator_paypal_configuration' );
-
-	// Delete site options.
-	delete_site_option( 'forminator_dismiss_black_friday' );
+	delete_option( "forminator_pagination_listings" );
+	delete_option( "forminator_pagination_entries" );
+	delete_option( "forminator_captcha_key" );
+	delete_option( "forminator_captcha_secret" );
+	delete_option( "forminator_v2_invisible_captcha_key" );
+	delete_option( "forminator_v2_invisible_captcha_secret" );
+	delete_option( "forminator_v3_captcha_key" );
+	delete_option( "forminator_v3_captcha_secret" );
+	delete_option( "forminator_captcha_language" );
+	delete_option( "forminator_captcha_theme" );
+	delete_option( "forminator_captcha_tab_saved" );
+	delete_option( "forminator_hcaptcha_key" );
+	delete_option( "forminator_hcaptcha_secret" );
+	// delete_option( "forminator_hcaptcha_noconflict" );
+	delete_option( "forminator_welcome_dismissed" );
+	delete_option( "forminator_version" );
+	delete_option( "forminator_retain_votes_interval_number" );
+	delete_option( "forminator_retain_votes_interval_unit" );
+	delete_option( "forminator_retain_submissions_interval_number" );
+	delete_option( "forminator_retain_submissions_interval_unit" );
+	delete_option( "forminator_enable_erasure_request_erase_form_submissions" );
+	delete_option( "forminator_form_privacy_settings" );
+	delete_option( "forminator_poll_privacy_settings" );
+	delete_option( "forminator_retain_ip_interval_number" );
+	delete_option( "forminator_retain_ip_interval_unit" );
+	delete_option( "forminator_retain_poll_submissions_interval_number" );
+	delete_option( "forminator_retain_poll_submissions_interval_unit" );
+	delete_option( "forminator_posts_map" );
+	delete_option( "forminator_module_enable_load_ajax" );
+	delete_option( "forminator_module_use_donotcachepage" );
+	delete_option( "forminator_retain_quiz_submissions_interval_number" );
+	delete_option( "forminator_retain_quiz_submissions_interval_unit" );
+	delete_option( "forminator_dashboard_settings" );
+	delete_option( "forminator_sender_email_address" );
+	delete_option( "forminator_sender_name" );
+	delete_option( "forminator_enable_accessibility" );
+	delete_option( "forminator_entries_export_schedule" );
+	delete_option( "forminator_paypal_api_mode" );
+	delete_option( "forminator_paypal_secret" );
+	delete_option( "forminator_currency" );
+	delete_option( "forminator_exporter_log" );
+	delete_option( "forminator_uninstall_clear_data" );
+	delete_option( "forminator_stripe_configuration" );
+	delete_option( "forminator_paypal_configuration" );
 
 	/**
 	 * @see forminator_delete_addon_options()

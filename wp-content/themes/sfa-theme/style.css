@@ -56,7 +56,7 @@ Text Domain: BrainSoft ICT
       text-decoration: none;
     }
     body{
-      padding: 0px 3% 0px 3%;
+      /* padding: 0px 3% 0px 3%; */
       overflow-x: hidden;
       background-color: #4d4d4d;
     }
@@ -258,8 +258,8 @@ Text Domain: BrainSoft ICT
         top: 0;
         left: 0;
         right: 0;
-        margin-left: 3%;
-        margin-right: 3%;        
+        /* margin-left: 3%;
+        margin-right: 3%;         */
         height: 100vh;
         width:auto;
         background-color: rgba(0,0,0,0.5);

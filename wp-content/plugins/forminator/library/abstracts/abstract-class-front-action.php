@@ -42,6 +42,20 @@ abstract class Forminator_Front_Action {
 	protected static $response_attrs = array();
 
 	/**
+	 * Submitted data
+	 *
+	 * @var array
+	 */
+	protected static $submitted_data = array();
+
+	/**
+	 * Pseudo submitted data
+	 *
+	 * @var array
+	 */
+	protected static $pseudo_submitted_data = array();
+
+	/**
 	 * Module ID
 	 *
 	 * @var int
@@ -436,6 +450,9 @@ abstract class Forminator_Front_Action {
 		$connected_addons = forminator_get_addons_instance_connected_with_module( $module_id, static::$module_slug );
 
 		foreach ( $connected_addons as $connected_addon ) {
+			if ( ! self::are_integration_conditions_matched( $connected_addon, $module_model ) ) {
+				continue;
+			}
 			try {
 				$method = 'get_addon_' . static::$module_slug . '_hooks';
 				if ( method_exists( $connected_addon, $method ) ) {
@@ -456,17 +473,70 @@ abstract class Forminator_Front_Action {
 	}
 
 	/**
+	 * Check - are integration conditions matched or not
+	 *
+	 * @param object $connected_addon Connected addon object.
+	 * @param object $model Module model.
+	 * @return boolean
+	 */
+	protected static function are_integration_conditions_matched( $connected_addon, $model ) {
+		if ( 'form' !== static::$module_slug ) {
+			return true;
+		}
+		$integration_id = 0;
+		if ( ! empty( $connected_addon->multi_id ) ) {
+			$integration_id = $connected_addon->multi_id;
+		}
+		if ( ! empty( $connected_addon->multi_global_id ) ) {
+			$integration_id = $connected_addon->multi_global_id;
+		}
+		if ( empty( $model->integration_conditions[ $integration_id ] ) ) {
+			return true;
+		}
+		$data = $model->integration_conditions[ $integration_id ];
+
+		if ( empty( $data['conditions'] ) ) {
+			// If it doesn't have any conditions - return true.
+			return true;
+		}
+		$condition_rule      = isset( $data['condition_rule'] ) ? $data['condition_rule'] : 'all';
+		$condition_action    = isset( $data['condition_action'] ) ? $data['condition_action'] : 'send';
+		$condition_fulfilled = 0;
+
+		$all_conditions = $data['conditions'];
+
+		foreach ( $all_conditions as $condition ) {
+			$is_condition_fulfilled = Forminator_Field::is_condition_matched( $condition, static::$submitted_data, static::$pseudo_submitted_data );
+			if ( $is_condition_fulfilled ) {
+				$condition_fulfilled ++;
+			}
+		}
+
+		if ( ( $condition_fulfilled > 0 && 'any' === $condition_rule )
+				|| ( count( $all_conditions ) === $condition_fulfilled && 'all' === $condition_rule ) ) {
+			// Conditions are matched.
+			return 'send' === $condition_action;
+		}
+
+		return 'send' !== $condition_action;
+	}
+
+	/**
 	 * Executor action for attached addons after entry saved on storage
 	 *
 	 * @since 1.1
 	 *
-	 * @param                             $module_id
 	 * @param Forminator_Form_Entry_Model $entry_model
+	 * @param Forminator_Base_Form_Model  $model Module model.
 	 */
-	protected function attach_addons_after_entry_saved( $module_id, Forminator_Form_Entry_Model $entry_model ) {
+	protected function attach_addons_after_entry_saved( Forminator_Form_Entry_Model $entry_model, Forminator_Base_Form_Model $model ) {
+		$module_id        = $model->id;
 		$connected_addons = forminator_get_addons_instance_connected_with_module( $module_id, static::$module_slug );
 
 		foreach ( $connected_addons as $connected_addon ) {
+			if ( ! self::are_integration_conditions_matched( $connected_addon, $model ) ) {
+				continue;
+			}
 			try {
 				$method = 'get_addon_' . static::$module_slug . '_hooks';
 				if ( method_exists( $connected_addon, $method ) ) {

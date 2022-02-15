@@ -74,6 +74,7 @@ Fields.',
 	<ul class="privacy-policy-tutorial">
 		<li><?php esc_html_e( 'Akismet. Enabled when you installed and configured Akismet on your site.' ); ?></li>
 		<li><?php esc_html_e( 'Google reCAPTCHA. Enabled when you added reCAPTCHA on your forms.' ); ?></li>
+		<li><?php esc_html_e( 'hCaptcha. Enabled when you added hCaptcha on your forms.' ); ?></li>
 		<li><?php esc_html_e( 'Mailchimp. Enabled when you activated and setup Mailchimp on Integrations settings.' ); ?></li>
 		<li><?php esc_html_e( 'Zapier. Enabled when you activated and setup Zapier on Integrations settings.' ); ?></li>
 		<li><?php esc_html_e( 'ActiveCampaign. Enabled when you activated and setup ActiveCampaign on Integrations settings.' ); ?></li>
@@ -86,15 +87,16 @@ Fields.',
 	<p>
 		<strong class="privacy-policy-tutorial"><?php esc_html_e( 'Suggested text: ', 'forminator' ); ?></strong>
 	<p><?php esc_html_e( 'We use Google reCAPTCHA for spam protection. Their privacy policy can be found here : https://policies.google.com/privacy?hl=en.', 'forminator' ); ?></p>
+	<p><?php esc_html_e( 'We use hCaptcha for spam protection. Their privacy policy can be found here : https://www.hcaptcha.com/privacy.', 'forminator' ); ?></p>
 	<p><?php esc_html_e( 'We use Akismet Spam for spam protection. Their privacy policy can be found here : https://automattic.com/privacy/.', 'forminator' ); ?></p>
 	<p><?php esc_html_e( 'We use Mailchimp to manage our subscriber list. Their privacy policy can be found here : https://mailchimp.com/legal/privacy/.', 'forminator' ); ?></p>
 	<p><?php esc_html_e( 'We use Zapier to manage our integration data. Their privacy policy can be found here : https://zapier.com/privacy/.', 'forminator' ); ?></p>
-	<p><?php esc_html_e( 'We use ActiveCampaign to manage our subscriber. Their privacy policy can be found here : https://www.activecampaign.com/privacy-policy/.', 'forminator' ); ?></p>
-	<p><?php esc_html_e( 'We use Aweber to manage our subscriber. Their privacy policy can be found here : https://www.aweber.com/privacy.htm.', 'forminator' ); ?></p>
+	<p><?php esc_html_e( 'We use ActiveCampaign to manage our subscriber list. Their privacy policy can be found here : https://www.activecampaign.com/privacy-policy/.', 'forminator' ); ?></p>
+	<p><?php esc_html_e( 'We use Aweber to manage our subscriber list. Their privacy policy can be found here : https://www.aweber.com/privacy.htm.', 'forminator' ); ?></p>
 	<p>
 		<?php
 		esc_html_e(
-			'We use Campaign Monitor to manage our subscriber. Their privacy policy can be found here : https://www.campaignmonitor.com/policies/#privacy-policy.',
+			'We use Campaign Monitor to manage our subscriber list. Their privacy policy can be found here : https://www.campaignmonitor.com/policies/#privacy-policy.',
 			'forminator'
 		);
 		?>

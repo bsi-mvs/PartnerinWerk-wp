@@ -200,7 +200,6 @@ class Forminator_Addon_Activecampaign_Form_Settings extends Forminator_Addon_For
 		$has_errors = false;
 
 		$lists         = array();
-		$custom_fields = array();
 
 		try {
 
@@ -209,9 +208,6 @@ class Forminator_Addon_Activecampaign_Form_Settings extends Forminator_Addon_For
 			foreach ( $lists_request as $key => $data ) {
 				if ( isset( $data->id ) && isset( $data->name ) ) {
 					$lists[ $data->id ] = $data->name;
-					if ( isset( $data->fields ) ) {
-						$custom_fields[ $data->id ] = $data->fields;
-					}
 				}
 			}
 
@@ -238,10 +234,6 @@ class Forminator_Addon_Activecampaign_Form_Settings extends Forminator_Addon_For
 				// phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 				if ( ! in_array( $list_id, array_keys( $lists ) ) ) {
 					throw new Forminator_Addon_Activecampaign_Exception( __( 'Please pick valid list' ) );
-				}
-
-				if ( ! empty( $custom_fields ) ) {
-					$this->custom_fields = $custom_fields[ $list_id ];
 				}
 
 				$list_name = $lists[ $list_id ];
@@ -352,6 +344,7 @@ class Forminator_Addon_Activecampaign_Form_Settings extends Forminator_Addon_For
 
 		$is_submit  = ! empty( $submitted_data );
 		$has_errors = false;
+		$custom_fields = array();
 
 		$fields = array(
 			'email'      => __( 'Email Address', 'forminator' ),
@@ -367,11 +360,21 @@ class Forminator_Addon_Activecampaign_Form_Settings extends Forminator_Addon_For
 
 			$ac_api      = $this->addon->get_api();
 			$list_detail = $ac_api->get_list( $list_id );
+			$lists_request = $ac_api->get_lists();
+			foreach ( $lists_request as $key => $data ) {
+				if ( isset( $data->id ) ) {
+					if ( isset( $data->fields ) ) {
+						$custom_fields[ $list_id ] = $data->fields;
+					}
+				}
+			}
 
 			//get global fields assigned to the form as well as explecit field
-			if ( ! empty( $this->custom_fields ) && is_array( $this->custom_fields ) ) {
-				foreach ( $this->custom_fields as $field ) {
-					$fields[ $field->id ] = $field->title;
+			if ( ! empty( $custom_fields ) && is_array( $custom_fields ) ) {
+				foreach ( $custom_fields as $custom_field ) {
+					foreach ( $custom_field as $field ) {
+						$fields[ $field->id ] = $field->title;
+					}
 				}
 			}
 

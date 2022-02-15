@@ -340,15 +340,7 @@
 			return isNaN(value) ? 0 : value;
 		},
 
-		focus_to_element: function ($element, fadeout) {
-			fadeout = fadeout || false;
-
-			if( fadeout ) {
-				fadeout = this.settings.fadeout;
-			}
-
-			var fadeout_time = this.settings.fadeout_time;
-
+		focus_to_element: function ($element) {
 			// force show in case its hidden of fadeOut
 			$element.show();
 			$('html,body').animate({scrollTop: ($element.offset().top - ($(window).height() - $element.outerHeight(true)) / 2)}, 500, function () {
@@ -356,10 +348,6 @@
 					$element.attr("tabindex", -1);
 				}
 				$element.focus();
-				if (fadeout) {
-					$element.show().delay( fadeout_time ).fadeOut('slow');
-				}
-
 			});
 		},
 
@@ -443,13 +431,13 @@
 				// Map address city field
 				var addressCity = this.get_field_value(billingAddress + '-city') || '';
 				if ( addressCity ) {
-					billingObject.address.admin_area_1 = addressCity;
+					billingObject.address.admin_area_2 = addressCity;
 				}
 
 				// Map address state field
 				var addressState = this.get_field_value(billingAddress + '-state') || '';
 				if ( addressState ) {
-					billingObject.address.admin_area_2 = addressState;
+					billingObject.address.admin_area_1 = addressState;
 				}
 
 				// Map address country field

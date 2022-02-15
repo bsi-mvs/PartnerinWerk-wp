@@ -2,8 +2,8 @@
 
 Contributors: ExtendThemes
 Tags:  page builder, editor, landing page, drag-and-drop, colibri, visual editor, wysiwyg, design, website builder, landing page builder, front-end builder
-Requires at least: 5.5
-Tested up to: 5.8
+Requires at least: 5.6
+Tested up to: 5.9
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -376,11 +376,11 @@ The exceptions to this license are as follows:
 *   extend-builder/assets/images/beach-landscape-sea-water-nature-sand-1061655-pxhere.com.jpg
     Source: https://pxhere.com/en/photo/1061655
     Licensed under Creative Commons Zero license, http://creativecommons.org/publicdomain/zero/1.0/
-    
+
 *   extend-builder/assets/images/landscape-tree-water-nature-grass-outdoor-1327743-pxhere.com.jpg
     Source: https://pxhere.com/en/photo/1327743
     Licensed under Creative Commons Zero license, http://creativecommons.org/publicdomain/zero/1.0/
-    
+
 *   extend-builder/assets/images/leaf-nature-water-green-freshness-dew-1440543-pxhere.com.jpg
     Source: https://pxhere.com/en/photo/1440543
     Licensed under Creative Commons Zero license, http://creativecommons.org/publicdomain/zero/1.0/

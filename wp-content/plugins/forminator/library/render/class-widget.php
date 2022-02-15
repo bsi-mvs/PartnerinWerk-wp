@@ -51,17 +51,17 @@ class Forminator_Widget extends WP_Widget {
 			switch ( $instance['form_type'] ) {
 				case 'form':
 					if ( isset( $instance['form_id'] ) && ! empty( $instance['form_id'] ) ) {
-						echo wp_kses_post( forminator_form( $instance['form_id'], false ) );
+						echo forminator_form( $instance['form_id'], false );
 					}
 					break;
 				case 'poll':
 					if ( isset( $instance['poll_id'] ) && ! empty( $instance['poll_id'] ) ) {
-						echo wp_kses_post( forminator_poll( $instance['poll_id'], false ) );
+						echo forminator_poll( $instance['poll_id'], false );
 					}
 					break;
 				case 'quiz':
 					if ( isset( $instance['quiz_id'] ) && ! empty( $instance['quiz_id'] ) ) {
-						echo wp_kses_post( forminator_quiz( $instance['quiz_id'], false ) );
+						echo forminator_quiz( $instance['quiz_id'], false );
 					}
 					break;
 				default:
@@ -145,6 +145,9 @@ class Forminator_Widget extends WP_Widget {
 			</label>
 			<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'form_id' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'form_id' ) ); ?>">
 				<?php
+				// Add default to prevent issues in some plugins
+				echo '<option value="">' . esc_html__( 'Choose a form', 'forminator' ) . '</option>';
+
 				$modules = Forminator_API::get_forms( null, 1, 999 );
 				foreach ( $modules as $module ) {
 					$module = (array) $module;
@@ -165,6 +168,9 @@ class Forminator_Widget extends WP_Widget {
 			</label>
 			<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'poll_id' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'poll_id' ) ); ?>">
 				<?php
+				// Add default to prevent issues in some plugins
+				echo '<option value="">' . esc_html__( 'Choose a poll', 'forminator' ) . '</option>';
+
 				$modules = Forminator_API::get_polls( null, 1, 999 );
 				foreach ( $modules as $module ) {
 					$module = (array) $module;
@@ -185,6 +191,9 @@ class Forminator_Widget extends WP_Widget {
 			</label>
 			<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'quiz_id' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'quiz_id' ) ); ?>">
 				<?php
+				// Add default to prevent issues in some plugins
+				echo '<option value="">' . esc_html__( 'Choose a quiz', 'forminator' ) . '</option>';
+
 				$modules = Forminator_API::get_quizzes( null, 1, 999 );
 				foreach ( $modules as $module ) {
 					$module = (array) $module;
@@ -201,7 +210,7 @@ class Forminator_Widget extends WP_Widget {
 
 		<script type="text/javascript">
 			jQuery(document).ready(function () {
-				jQuery(".forminator-form-type").change(function () {
+				jQuery(".forminator-form-type").on('change', function () {
 					var value   = jQuery(this).val(),
 						$widget = jQuery(this).closest('.widget-content')
 					;

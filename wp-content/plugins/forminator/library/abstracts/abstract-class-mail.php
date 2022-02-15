@@ -394,59 +394,7 @@ abstract class Forminator_Mail {
 	 * @return bool
 	 */
 	public static function is_condition_fulfilled( $form_field_value, $condition ) {
-		switch ( $condition['rule'] ) {
-			case 'is':
-				if ( is_array( $form_field_value ) ) {
-					// possible input is "1" to be compared with 1.
-					return in_array( $condition['value'], $form_field_value ); //phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
-				}
-				if ( is_numeric( $condition['value'] ) ) {
-					return ( (int) $form_field_value === (int) $condition['value'] );
-				}
-
-				return ( $form_field_value === $condition['value'] );
-			case 'is_not':
-				if ( is_array( $form_field_value ) ) {
-					// possible input is "1" to be compared with 1.
-					return ! in_array( $condition['value'], $form_field_value ); //phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
-				}
-
-				return ( $form_field_value !== $condition['value'] );
-			case 'is_great':
-				if ( ! is_numeric( $condition['value'] ) ) {
-					return false;
-				}
-				if ( ! is_numeric( $form_field_value ) ) {
-					return false;
-				}
-
-				return $form_field_value > $condition['value'];
-			case 'is_less':
-				if ( ! is_numeric( $condition['value'] ) ) {
-					return false;
-				}
-				if ( ! is_numeric( $form_field_value ) ) {
-					return false;
-				}
-
-				return $form_field_value < $condition['value'];
-			case 'contains':
-				return ( stripos( $form_field_value, $condition['value'] ) === false ? false : true );
-			case 'starts':
-				return ( stripos( $form_field_value, $condition['value'] ) === 0 ? true : false );
-			case 'ends':
-				return ( stripos( $form_field_value, $condition['value'] ) === ( strlen( $form_field_value - 1 ) ) ? true : false );
-			case 'is_correct':
-				return $form_field_value ? true : false;
-			case 'is_incorrect':
-				return ! $form_field_value ? true : false;
-			case 'is_final_result':
-				return $form_field_value === $condition['element_id'];
-			case 'is_not_final_result':
-				return $form_field_value !== $condition['element_id'];
-			default:
-				return false;
-		}
+		return Forminator_Field::is_condition_fulfilled( $form_field_value, $condition );
 	}
 
 	/**

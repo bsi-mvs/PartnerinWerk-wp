@@ -180,7 +180,7 @@ class Forminator_Poll_Front_Action extends Forminator_Front_Action {
 		$entry->set_fields( $added_data_array );
 
 		// ADDON after_entry_saved.
-		$this->attach_addons_after_entry_saved( $form_id, $entry );
+		$this->attach_addons_after_entry_saved( $entry, $poll );
 
 		// Email.
 		$forminator_mail_sender = new Forminator_Poll_Front_Mail();
@@ -226,25 +226,25 @@ class Forminator_Poll_Front_Action extends Forminator_Front_Action {
 			$is_ajax_enabled = filter_var( $setting['enable-ajax'], FILTER_VALIDATE_BOOLEAN );
 		}
 
-		// Results behav.
+		// Results behav
 		$response['results_behav'] = (string) $setting['results-behav'];
 
-		// Votes count.
+		// Votes count
 		$response['votes_count'] = isset( $setting['show-votes-count'] ) ? filter_var( $setting['show-votes-count'], FILTER_VALIDATE_BOOLEAN ) : false;
 
-		// Chart basic colors.
+		// Chart basic colors
 		$response['grids_color']   = ! empty( $setting['grid_lines'] ) ? $setting['grid_lines'] : '#E5E5E5';
 		$response['labels_color']  = ! empty( $setting['grid_labels'] ) ? $setting['grid_labels'] : '#777771';
 		$response['onchart_label'] = ! empty( $setting['onbar_votes'] ) ? $setting['onbar_votes'] : '#333333';
 
-		// Tooltips.
+		// Tooltips
 		$response['tooltips_bg']    = ! empty( $setting['tooltips_background'] ) ? $setting['tooltips_background'] : '#333333';
 		$response['tooltips_color'] = ! empty( $setting['tooltips_text'] ) ? $setting['tooltips_text'] : '#FFFFFF';
 
-		// On chart label text.
+		// On chart label text
 		$response['votes_text'] = (string) esc_html__( 'vote(s)', 'forminator' );
 
-		// View results link.
+		// View results link
 		$response['results_link'] = sprintf(
 			'<a href="%s" class="forminator-link">%s</a>',
 			esc_url( $url ),
@@ -252,14 +252,14 @@ class Forminator_Poll_Front_Action extends Forminator_Front_Action {
 		);
 
 		if ( $is_ajax_enabled ) {
-			// ajax enabled send result data to front end.
+			// ajax enabled send result data to front end
 			$response['chart_data'] = self::get_chart_data( $poll );
 
 			if ( isset( $setting['enable-votes-limit'] ) && 'true' === $setting['enable-votes-limit'] ) {
 				$response['back_button'] = '<button type="button" class="forminator-button forminator-button-back">' . __( 'Back To Poll', 'forminator' ) . '</button>';
 			}
 		} else {
-			// its not ajax enabled, send url result to front end.
+			// its not ajax enabled, send url result to front end
 			$response['url'] = $url;
 		}
 
@@ -290,10 +290,10 @@ class Forminator_Poll_Front_Action extends Forminator_Front_Action {
 
 			foreach ( $fields as $field ) {
 
-				// Label.
+				// Label
 				$label = addslashes( $field->title );
 
-				// Votes.
+				// Votes
 				$slug    = isset( $field->slug ) ? $field->slug : sanitize_title( $label );
 				$entries = 0;
 
@@ -337,7 +337,7 @@ class Forminator_Poll_Front_Action extends Forminator_Front_Action {
 			return;
 		}
 
-		// Only show to related form.
+        // Only show to related form
 		if ( ! empty( $response ) && is_array( $response ) && (int) $form_id === (int) $post_form_id ) {
 			$label_class = $response['success'] ? 'forminator-success' : 'forminator-error';
 			if ( isset( $response['notice'] ) && $response['notice'] === 'error'

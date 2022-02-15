@@ -127,6 +127,18 @@
               </div>
         </div>
       </div>
+          <!-- First Carousel -->
+    <div class="carousel">
+      <div class="owl-carousel">
+        <div> Your Content </div>
+        <div> Your Content </div>
+        <div> Your Content </div>
+        <div> Your Content </div>
+        <div> Your Content </div>
+        <div> Your Content </div>
+        <div> Your Content </div>
+      </div>
+    </div>
     </div>
   </section>
 </header>
@@ -182,11 +194,13 @@
 <script src="<?php bloginfo('template_url'); ?>/js/bootstrap/bootstrap.js"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script> 
     <script src="<?php bloginfo('template_url'); ?>/js/bootstrap/bootstrap.bundle.js" type="text/javascript" ></script>
+    <script src="<?php bloginfo('template_url'); ?>/js/custom/owl.carousel.min.js" type="text/javascript" ></script>
+    <script src="<?php bloginfo('template_url'); ?>/js/custom/carousel.js" type="text/javascript" ></script>
 </body>
 <script type="text/javascript">
       $(function() {        
         $('.nav').children(':last-child').removeClass("nav-item");
         $('.nav').children(':last-child').addClass("nav-item-last");
-      });    
+      }); 
  </script>
 </html>

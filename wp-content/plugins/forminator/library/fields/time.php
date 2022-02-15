@@ -198,7 +198,7 @@ class Forminator_Time extends Forminator_Field {
 				$hours = array(
 					'type'        => 'number',
 					'name'        => $id . '-hours',
-					'min'         => ( 'twelve' === $type ) ? '1' : '0',
+					'min'         => '0',
 					'max'         => ( 'twelve' === $type ) ? '12' : '23',
 					'placeholder' => $this->sanitize_value( self::get_property( 'hh_placeholder', $field ) ),
 					'id'          => 'forminator-field-' . $id . '-hours',

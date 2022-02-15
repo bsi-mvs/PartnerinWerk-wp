@@ -464,10 +464,10 @@ abstract class Forminator_Field {
 				'textarea_name' => isset( $attr['name'] ) ? $attr['name'] : '',
 				'media_buttons' => false,
 				'editor_class'  => $wp_editor_class,
-				'editor_height' => $default_height,
-				// 'tinymce'     => array(.
-				// 'content_css' => '/forminator-{theme}-editor.min.css'.
-				// ),.
+				'editor_height'	=> $default_height,
+				//'tinymce'     => array(
+				//	'content_css' => '/forminator-{theme}-editor.min.css'
+				//),
 			)
 		);
 
@@ -609,7 +609,7 @@ abstract class Forminator_Field {
 	 * @since 1.5.2
 	 *
 	 * @param        $options
-	 * @param string  $selected_value
+	 * @param string $selected_value
 	 *
 	 * @return string
 	 */
@@ -639,10 +639,10 @@ abstract class Forminator_Field {
 	 *
 	 * @since 1.0
 	 *
-	 * @param string      $id
-	 * @param string      $name
+	 * @param string $id
+	 * @param string $name
 	 * @param        $description
-	 * @param bool        $required
+	 * @param bool   $required
 	 *
 	 * @param        $design
 	 * @param        $file_type
@@ -852,39 +852,8 @@ abstract class Forminator_Field {
 		$conditions_count    = 0;
 
 		foreach ( $conditions as $condition ) {
-
-			$element_id  = $condition['element_id'];
-			$field_value = isset( $form_data[ $element_id ] ) ? $form_data[ $element_id ] : '';
-			if ( stripos( $element_id, 'upload-' ) !== false && ! isset( $form_data[ $element_id ] ) && isset( $form_data['forminator-multifile-hidden'] ) ) {
-				$form_upload_data = json_decode( stripslashes( $form_data['forminator-multifile-hidden'] ), true );
-				if ( $form_upload_data && isset( $form_upload_data[ $element_id ] ) ) {
-					$field_value = $form_upload_data[ $element_id ];
-				}
-			}
-
-			if ( stripos( $element_id, 'signature-' ) !== false ) {
-				// We have signature field.
-				$is_condition_fulfilled = false;
-				$signature_id           = 'field-' . $element_id;
-
-				if ( isset( $form_data[ $signature_id ] ) ) {
-					$signature_data = 'ctlSignature' . $form_data[ $signature_id ] . '_data';
-
-					if ( isset( $form_data[ $signature_data ] ) ) {
-						$is_condition_fulfilled = self::is_condition_fulfilled( $form_data[ $signature_data ], $condition );
-					}
-				}
-			} elseif ( stripos( $element_id, 'calculation-' ) !== false || stripos( $element_id, 'stripe-' ) !== false ) {
-				$is_condition_fulfilled = false;
-				if ( isset( $pseudo_submitted_data[ $element_id ] ) ) {
-					// Condition's value is saved as a string value.
-					$is_condition_fulfilled = self::is_condition_fulfilled( (string) $pseudo_submitted_data[ $element_id ], $condition );
-				}
-			} elseif ( stripos( $element_id, 'checkbox-' ) !== false || stripos( $element_id, 'radio-' ) !== false ) {
-				$is_condition_fulfilled = self::is_condition_fulfilled( $field_value, $condition );
-			} else {
-				$is_condition_fulfilled = self::is_condition_fulfilled( $field_value, $condition, $form_data['form_id'] );
-			}
+			$element_id             = $condition['element_id'];
+			$is_condition_fulfilled = self::is_condition_matched( $condition, $form_data, $pseudo_submitted_data );
 
 			if ( in_array( $element_id, $hidden_fields ) ) {
 				$is_condition_fulfilled = false;
@@ -894,20 +863,20 @@ abstract class Forminator_Field {
 				$condition_fulfilled ++;
 			}
 
-			// Increase conditions count.
+			// Increase conditions count
 			$conditions_count ++;
 
-			// Check for parent conditions.
+			// Check for parent conditions
 			if ( $form_object ) {
 				$parent_field      = $form_object->get_field( $element_id );
 				$parent_conditions = self::get_property( 'conditions', $parent_field, array() );
 
 				if ( ! empty( $parent_conditions ) && 'any' !== $condition_rule ) {
-					// Increase conditions count.
+					// Increase conditions count
 					$conditions_count ++;
 					$parent_hidden = self::is_hidden( $parent_field, $form_data, $pseudo_submitted_data, $form_object, $hidden_fields );
 
-					// If parent not hidden increase fulfilled conditions.
+					// If parent not hidden increase fulfilled conditions
 					if ( ! $parent_hidden && 'show' === $condition_action ) {
 						$condition_fulfilled ++;
 					}
@@ -915,7 +884,7 @@ abstract class Forminator_Field {
 			}
 		}
 
-		// initialized as hidden.
+		//initialized as hidden
 		if ( 'show' === $condition_action ) {
 			if ( ( $condition_fulfilled > 0 && 'any' === $condition_rule ) || ( $conditions_count === $condition_fulfilled && 'all' === $condition_rule ) ) {
 				return false;
@@ -923,7 +892,7 @@ abstract class Forminator_Field {
 
 			return true;
 		} else {
-			// initialized as shown.
+			//initialized as shown
 			if ( ( $condition_fulfilled > 0 && 'any' === $condition_rule ) || ( $conditions_count === $condition_fulfilled && 'all' === $condition_rule ) ) {
 				return true;
 			}
@@ -933,13 +902,64 @@ abstract class Forminator_Field {
 	}
 
 	/**
+	 * Check if passed condition is matched
+	 *
+	 * @param array $condition Current condition.
+	 * @param array $form_data Module data.
+	 * @param array $pseudo_submitted_data Pseudo submitted data.
+	 * @return bool
+	 */
+	public static function is_condition_matched( $condition, $form_data, $pseudo_submitted_data ) {
+		// empty conditions.
+		if ( empty( $condition ) ) {
+			return false;
+		}
+
+		$element_id  = $condition['element_id'];
+		$field_value = isset( $form_data[ $element_id ] ) ? $form_data[ $element_id ] : '';
+
+		if ( stripos( $element_id, 'upload-' ) !== false && ! isset( $form_data[ $element_id ] ) && isset( $form_data['forminator-multifile-hidden'] ) ) {
+			$form_upload_data = json_decode( stripslashes( $form_data['forminator-multifile-hidden'] ), true );
+			if ( $form_upload_data && isset( $form_upload_data[ $element_id ] ) ) {
+				$field_value = $form_upload_data[ $element_id ];
+			}
+		}
+
+		if ( stripos( $element_id, 'signature-' ) !== false ) {
+			// We have signature field.
+			$is_condition_fulfilled = false;
+			$signature_id           = 'field-' . $element_id;
+
+			if ( isset( $form_data[ $signature_id ] ) ) {
+				$signature_data = 'ctlSignature' . $form_data[ $signature_id ] . '_data';
+
+				if ( isset( $form_data[ $signature_data ] ) ) {
+					$is_condition_fulfilled = self::is_condition_fulfilled( $form_data[ $signature_data ], $condition );
+				}
+			}
+		} elseif ( stripos( $element_id, 'calculation-' ) !== false || stripos( $element_id, 'stripe-' ) !== false ) {
+			$is_condition_fulfilled = false;
+			if ( isset( $pseudo_submitted_data[ $element_id ] ) ) {
+				// Condition's value is saved as a string value.
+				$is_condition_fulfilled = self::is_condition_fulfilled( (string) $pseudo_submitted_data[ $element_id ], $condition );
+			}
+		} elseif ( stripos( $element_id, 'checkbox-' ) !== false || stripos( $element_id, 'radio-' ) !== false ) {
+			$is_condition_fulfilled = self::is_condition_fulfilled( $field_value, $condition );
+		} else {
+			$is_condition_fulfilled = self::is_condition_fulfilled( $field_value, $condition, $form_data['form_id'] );
+		}
+
+		return $is_condition_fulfilled;
+	}
+
+	/**
 	 * Check if Form Field value fullfilled the condition
 	 *
 	 * @since 1.0
 	 *
 	 * @param $form_field_value
 	 * @param $condition
-	 * @param $form_id null.
+	 * @param $form_id null
 	 *
 	 * @return bool
 	 */
@@ -950,7 +970,7 @@ abstract class Forminator_Field {
 		switch ( $condition['rule'] ) {
 			case 'is':
 				if ( is_array( $form_field_value ) ) {
-					// possible input is "1" to be compared with 1.
+					// possible input is "1" to be compared with 1
 					return in_array( $condition['value'], $form_field_value ); //phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 				}
 				if ( is_numeric( $condition['value'] ) ) {
@@ -960,7 +980,7 @@ abstract class Forminator_Field {
 				return ( $form_field_value === $condition['value'] );
 			case 'is_not':
 				if ( is_array( $form_field_value ) ) {
-					// possible input is "1" to be compared with 1.
+					// possible input is "1" to be compared with 1
 					return ! in_array( $condition['value'], $form_field_value ); //phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 				}
 
@@ -1003,35 +1023,35 @@ abstract class Forminator_Field {
 					return $day !== $condition['value'];
 				}
 
-				return false;
+                return false;
 			case 'month_is':
 				if ( null !== $form_id && ! empty( $form_field_value ) ) {
 					$month = self::get_day_or_month( $form_field_value, $condition['element_id'], $form_id, 'M' );
 					return $month === $condition['value'];
 				}
 
-				return false;
+                return false;
 			case 'month_is_not':
 				if ( null !== $form_id && ! empty( $form_field_value ) ) {
 					$month = self::get_day_or_month( $form_field_value, $condition['element_id'], $form_id, 'M' );
 					return $month !== $condition['value'];
 				}
 
-				return false;
+                return false;
 			case 'is_before':
 				if ( null !== $form_id && ! empty( $form_field_value ) ) {
 					$date = self::get_day_or_month( $form_field_value, $condition['element_id'], $form_id, 'j F Y' );
 					return strtotime( $date ) < strtotime( $condition['value'] );
 				}
 
-				return false;
+                return false;
 			case 'is_after':
 				if ( null !== $form_id && ! empty( $form_field_value ) ) {
 					$date = self::get_day_or_month( $form_field_value, $condition['element_id'], $form_id, 'j F Y' );
 					return strtotime( $date ) > strtotime( $condition['value'] );
 				}
 
-				return false;
+                return false;
 			case 'is_before_n_or_more_days':
 				if ( null !== $form_id && ! empty( $form_field_value ) ) {
 					$date = self::get_day_or_month( $form_field_value, $condition['element_id'], $form_id, 'Y-m-d' );
@@ -1048,7 +1068,7 @@ abstract class Forminator_Field {
 					return $rule_date < strtotime( $date ) && strtotime( $date ) <= $current_date;
 				}
 
-				return false;
+                return false;
 			case 'is_after_n_or_more_days':
 				if ( null !== $form_id && ! empty( $form_field_value ) ) {
 					$date = self::get_day_or_month( $form_field_value, $condition['element_id'], $form_id, 'Y-m-d' );
@@ -1066,6 +1086,15 @@ abstract class Forminator_Field {
 				}
 
 				return false;
+
+			case 'is_correct':
+				return $form_field_value ? true : false;
+			case 'is_incorrect':
+				return ! $form_field_value ? true : false;
+			case 'is_final_result':
+				return $form_field_value === $condition['element_id'];
+			case 'is_not_final_result':
+				return $form_field_value !== $condition['element_id'];
 			default:
 				return false;
 		}
@@ -1274,7 +1303,7 @@ abstract class Forminator_Field {
 	 */
 	public function init_autofill( $settings ) {
 
-		// Lazy init providers.
+		// Lazy init providers
 		if ( self::is_autofill_enabled( $settings )
 			&& isset( $settings['fields-autofill'] )
 			&& ! empty( $settings['fields-autofill'] ) ) {
@@ -1311,13 +1340,13 @@ abstract class Forminator_Field {
 	 */
 	public static function get_autofill_setting( $settings ) {
 
-		// Autofill not enabled.
+		// Autofill not enabled
 		if ( ! self::is_autofill_enabled( $settings ) ) {
 			return array();
 		}
 
 		if ( isset( $settings['fields-autofill'] ) && ! empty( $settings['fields-autofill'] ) ) {
-			// build to array key.
+			// build to array key
 			$fields_autofill      = $settings['fields-autofill'];
 			$fields_autofill_pair = array();
 			if ( ! is_array( $fields_autofill ) ) {
@@ -1751,7 +1780,8 @@ abstract class Forminator_Field {
 				paste_webkit_styles : 'font-weight font-style color',
 				preview_styles      : 'font-family font-size font-weight font-style text-decoration text-transform',
 				tabfocus_elements   : ':prev,:next',
-                plugins    : 'charmap,hr,media,paste,tabfocus,textcolor,fullscreen,wptextpattern,lists,WordPress,wpeditimage,wpgallery,link,wplink,wpdialogs,wpview',
+                plugins    : 'charmap,hr,media,paste,tabfocus,textcolor,fullscreen,wptextpattern,lists,wordpress,wpeditimage,wpgallery,link,wplink,wpdialogs,wpview'," // phpcs:ignore WordPress.WP.CapitalPDangit.Misspelled
+				. "
 				resize     : 'vertical',
 				menubar    : false,
 				indent     : false,

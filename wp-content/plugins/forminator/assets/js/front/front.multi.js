@@ -122,8 +122,6 @@
 				forminator_selector: self.forminator_selector,
 				chart_design: self.settings.chart_design,
 				chart_options: self.settings.chart_options,
-				fadeout: self.settings.fadeout,
-				fadeout_time: self.settings.fadeout_time,
 				has_quiz_loader: self.settings.has_quiz_loader,
 				has_loader: self.settings.has_loader,
 				loader_label: self.settings.loader_label,
@@ -194,7 +192,6 @@
 					paymentEl: stripe_payment,
 					paymentRequireSsl: self.settings.payment_require_ssl,
 					generalMessages: self.settings.general_messages,
-					fadeout_time: self.settings.fadeout_time,
 					has_loader: self.settings.has_loader,
 					loader_label: self.settings.loader_label,
 				});
@@ -392,7 +389,7 @@
 			});
 
 			if( 'end' !== lead_placement ) {
-				this.$el.find('.forminator-submit-rightaway').click(function () {
+				this.$el.find('.forminator-submit-rightaway').on("click", function () {
 					self.$el.submit();
 					$(this).closest('.forminator-question').find('.forminator-submit-rightaway').addClass('forminator-has-been-disabled').attr('disabled', 'disabled');
 				});
@@ -538,9 +535,13 @@
 					$(this).intlTelInput(args);
 
 					if ( ! is_material ) {
-						$(this).closest( '.forminator-field' ).find( 'div.intl-tel-input' ).addClass( 'forminator-phone' );
+						$(this).closest( '.forminator-field' ).find( 'div.iti' ).addClass( 'forminator-phone' );
 					} else {
-						$(this).closest( '.forminator-field' ).find( 'div.intl-tel-input' ).addClass( 'forminator-input-with-phone' );
+						$(this).closest( '.forminator-field' ).find( 'div.iti' ).addClass( 'forminator-input-with-phone' );
+
+						if ( $(this).closest( '.forminator-field' ).find( 'div.iti' ).hasClass( 'iti--allow-dropdown' ) ) {
+							$(this).closest( '.forminator-field' ).find( '.forminator-label' ).addClass( 'iti--allow-dropdown' );
+						}
 					}
 
 					// intlTelInput plugin adds a markup that's not compatible with 'material' theme when 'allowDropdown' is true (default).
@@ -702,11 +703,11 @@
 
 				var hoverClass = 'forminator-is_hover';
 
-				element.mouseover( function( e ) {
+				element.on( 'mouseover', function( e ) {
 					elementField.addClass( hoverClass );
 					elementAnswer.addClass( hoverClass );
 					e.stopPropagation();
-				}).mouseout( function( e ) {
+				}).on( 'mouseout', function( e ) {
 					elementField.removeClass( hoverClass );
 					elementAnswer.removeClass( hoverClass );
 					e.stopPropagation();
@@ -805,11 +806,11 @@
 				var $select = $(this);
 
 				// Set field active class on hover
-				$select.mouseover(function (e) {
+				$select.on('mouseover', function (e) {
 					e.stopPropagation();
 					$(this).closest('.forminator-field').addClass('forminator-is_hover');
 
-				}).mouseout(function (e) {
+				}).on('mouseout', function (e) {
 					e.stopPropagation();
 					$(this).closest('.forminator-field').removeClass('forminator-is_hover');
 
@@ -1016,7 +1017,7 @@
 
 			});
 
-			form.find( '.forminator-input-file, .forminator-input-file-required' ).change(function () {
+			form.find( '.forminator-input-file, .forminator-input-file-required' ).on('change', function () {
 				var $nameLabel = $(this).closest( '.forminator-file-upload' ).find( '> span' ),
 					vals = $(this).val(),
 					val  = vals.length ? vals.split('\\').pop() : ''
@@ -1107,6 +1108,40 @@
 					$(captcha_field).data('forminator-recapchta-widget', widget);
 					this.addCaptchaAria( captcha_field );
 					this.responsive_captcha();
+				}
+			}
+		},
+
+		renderHcaptcha: function ( captcha_field ) {
+			var self = this;
+			//render hcaptcha only if not rendered
+			if (typeof $( captcha_field ).data( 'forminator-hcaptcha-widget' ) === 'undefined') {
+				var size = $( captcha_field ).data( 'size' ),
+				    data = {
+					    sitekey: $( captcha_field ).data( 'sitekey' ),
+					    theme: $( captcha_field ).data( 'theme' ),
+					    size: size
+				    };
+
+				if ( size === 'invisible' ) {
+					data.callback = function ( token ) {
+						$( self.element ).trigger( 'submit.frontSubmit' );
+					};
+				} else {
+					data.callback = function () {
+						$( captcha_field ).parent( '.forminator-col' )
+							.removeClass( 'forminator-has_error' )
+							.remove( '.forminator-error-message' );
+					};
+				}
+
+				if ( data.sitekey !== "" ) {
+					// noinspection Annotator
+					var widgetId = hcaptcha.render( captcha_field, data );
+					// mark as rendered
+					$( captcha_field ).data( 'forminator-hcaptcha-widget', widgetId );
+					// this.addCaptchaAria( captcha_field );
+					// this.responsive_captcha();
 				}
 			}
 		},
@@ -1243,7 +1278,7 @@
 // noinspection JSUnusedGlobalSymbols
 var forminator_render_captcha = function () {
 	// TODO: avoid conflict with another plugins that provide recaptcha
-	//  notify forminator front that grecaptcha loaded. anc can be used
+	//  notify forminator front that grecaptcha has loaded and can be used
 	jQuery('.forminator-g-recaptcha').each(function () {
 		// find closest form
 		var thisCaptcha = jQuery(this),
@@ -1254,6 +1289,26 @@ var forminator_render_captcha = function () {
 				var forminatorFront = form.data( 'forminatorFront' );
 				if (typeof forminatorFront !== 'undefined') {
 					forminatorFront.renderCaptcha( thisCaptcha[0] );
+				}
+			}, 100 );
+		}
+	});
+};
+
+// noinspection JSUnusedGlobalSymbols
+var forminator_render_hcaptcha = function () {
+	// TODO: avoid conflict with another plugins that provide hcaptcha
+	//  notify forminator front that hcaptcha has loaded and can be used
+	jQuery('.forminator-hcaptcha').each(function () {
+		// find closest form
+		var thisCaptcha = jQuery(this),
+			form 		= thisCaptcha.closest('form');
+
+		if (form.length > 0) {
+			window.setTimeout( function() {
+				var forminatorFront = form.data( 'forminatorFront' );
+				if (typeof forminatorFront !== 'undefined') {
+					forminatorFront.renderHcaptcha( thisCaptcha[0] );
 				}
 			}, 100 );
 		}

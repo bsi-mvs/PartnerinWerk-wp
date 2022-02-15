@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Forminator
- * Version: 1.15.7
+ * Version: 1.15.11
  * Plugin URI:  https://wpmudev.com/project/forminator/
  * Description: Capture user information (as detailed as you like), engage users with interactive polls that show real-time results and graphs, “no wrong answer” Facebook-style quizzes and knowledge tests.
  * Author: WPMU DEV
@@ -12,7 +12,7 @@
  */
 /*
 Copyright 2009-2018 Incsub (http://incsub.com)
-Author – Cvetan Cvetanov (cvetanov)
+Author – Cvetan Cvetanov (cvetanov), Dixita Dusara (dency)
 Contributors –
 
 This program is free software; you can redistribute it and/or modify
@@ -34,11 +34,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'FORMINATOR_VERSION' ) ) {
-	define( 'FORMINATOR_VERSION', '1.15.7' );
+	define( 'FORMINATOR_VERSION', '1.15.11' );
 }
 
 if ( ! defined( 'FORMINATOR_SUI_VERSION' ) ) {
-	define( 'FORMINATOR_SUI_VERSION', '2.6.0' );
+	define( 'FORMINATOR_SUI_VERSION', '2.11.2' );
 }
 
 if ( ! defined( 'FORMINATOR_STRIPE_LIB_VERSION' ) ) {
@@ -70,12 +70,12 @@ if ( ! defined( 'FORMINATOR_PRO_URL' ) ) {
 	define( 'FORMINATOR_PRO_URL', 'https://wpmudev.com/project/forminator-pro/' );
 }
 
-// Include API.
+// Include API
 require_once plugin_dir_path( __FILE__ ) . 'library/class-api.php';
 
-// Register activation hook.
+// Register activation hook
 register_activation_hook( __FILE__, array( 'Forminator', 'activation_hook' ) );
-// Register deactivation hook.
+// Register deactivation hook
 register_deactivation_hook( __FILE__, array( 'Forminator', 'deactivation_hook' ) );
 
 /**
@@ -182,7 +182,7 @@ if ( ! class_exists( 'Forminator' ) ) {
 		 * @return bool
 		 */
 		public static function is_addons_feature_enabled() {
-			// force enable addon on entire planet.
+			// force enable addon on entire planet
 			$enabled = true;
 
 			/**
@@ -190,7 +190,7 @@ if ( ! class_exists( 'Forminator' ) ) {
 			 *
 			 * @since 1.1
 			 *
-			 * @param bool $enabled current status of addons feature.
+			 * @param bool $enabled current status of addons feature
 			 */
 			$enabled = apply_filters( 'forminator_is_addons_feature_enabled', $enabled );
 
@@ -208,7 +208,7 @@ if ( ! class_exists( 'Forminator' ) ) {
 		 * @return bool
 		 */
 		public static function is_import_export_feature_enabled() {
-			// enable import export feature for entire planet by default.
+			// enable import export feature for entire planet by default
 			$enabled = true;
 
 			/**
@@ -216,7 +216,7 @@ if ( ! class_exists( 'Forminator' ) ) {
 			 *
 			 * @since 1.4
 			 *
-			 * @param bool $enabled current status of Import/export feature.
+			 * @param bool $enabled current status of Import/export feature
 			 */
 			$enabled = apply_filters( 'forminator_is_import_export_feature_enabled', $enabled );
 
@@ -233,9 +233,9 @@ if ( ! class_exists( 'Forminator' ) ) {
 		 * @return bool
 		 */
 		public static function is_import_integrations_feature_enabled() {
-			// default is disabled unless `FORMINATOR_ENABLE_IMPORT_INTEGRATIONS` = true,.
-			// integrations data probably contains sensitive content.
-			// not 100% will worked if current addon not enabled / not setup properly.
+			// default is disabled unless `FORMINATOR_ENABLE_IMPORT_INTEGRATIONS` = true,
+			// integrations data probably contains sensitive content
+			// not 100% will worked if current addon not enabled / not setup properly
 			$enabled = ( defined( 'FORMINATOR_ENABLE_IMPORT_INTEGRATIONS' ) && FORMINATOR_ENABLE_IMPORT_INTEGRATIONS );
 
 			/**
@@ -243,7 +243,7 @@ if ( ! class_exists( 'Forminator' ) ) {
 			 *
 			 * @since 1.4
 			 *
-			 * @param bool $enabled current status of Import integrations feature.
+			 * @param bool $enabled current status of Import integrations feature
 			 */
 			$enabled = apply_filters( 'forminator_is_import_integrations_feature_enabled', $enabled );
 
@@ -260,9 +260,9 @@ if ( ! class_exists( 'Forminator' ) ) {
 		 * @return bool
 		 */
 		public static function is_export_integrations_feature_enabled() {
-			// default is disabled unless `FORMINATOR_ENABLE_EXPORT_INTEGRATIONS` = true,.
-			// integrations data probably contains sensitive content.
-			// not 100% will worked if current addon not enabled / not setup properly.
+			// default is disabled unless `FORMINATOR_ENABLE_EXPORT_INTEGRATIONS` = true,
+			// integrations data probably contains sensitive content
+			// not 100% will worked if current addon not enabled / not setup properly
 			$enabled = ( defined( 'FORMINATOR_ENABLE_EXPORT_INTEGRATIONS' ) && FORMINATOR_ENABLE_EXPORT_INTEGRATIONS );
 
 			/**
@@ -270,7 +270,7 @@ if ( ! class_exists( 'Forminator' ) ) {
 			 *
 			 * @since 1.4
 			 *
-			 * @param bool $enabled current status of export integrations feature.
+			 * @param bool $enabled current status of export integrations feature
 			 */
 			$enabled = apply_filters( 'forminator_is_export_integrations_feature_enabled', $enabled );
 
@@ -284,7 +284,7 @@ if ( ! class_exists( 'Forminator' ) ) {
 		 * @return bool
 		 */
 		public static function is_internal_page_cache_support_enabled() {
-			// default is enabled unless `FORMINATOR_ENABLE_INTERNAL_PAGE_CACHE_SUPPORT` = false,.
+			// default is enabled unless `FORMINATOR_ENABLE_INTERNAL_PAGE_CACHE_SUPPORT` = false,
 			$enabled = true;
 			if ( defined( 'FORMINATOR_ENABLE_INTERNAL_PAGE_CACHE_SUPPORT' ) && ! FORMINATOR_ENABLE_INTERNAL_PAGE_CACHE_SUPPORT ) {
 				$enabled = false;
@@ -294,7 +294,7 @@ if ( ! class_exists( 'Forminator' ) ) {
 			 *
 			 * @since 1.6.1
 			 *
-			 * @param bool $enabled current status of internal page cache support.
+			 * @param bool $enabled current status of internal page cache support
 			 */
 			$enabled = apply_filters( 'forminator_is_internal_page_cache_support_enabled', $enabled );
 
@@ -370,7 +370,7 @@ if ( ! class_exists( 'Forminator' ) ) {
 		 * @since 1.10
 		 */
 		public static function set_free_installation_timestamp() {
-			// We need the install date only on free version.
+			// We need the install date only on free version
 			if ( FORMINATOR_PRO ) {
 				return;
 			}
@@ -388,7 +388,7 @@ if ( ! class_exists( 'Forminator' ) ) {
 		 * @since 1.0
 		 */
 		private function init() {
-			// Initialize plugin core.
+			// Initialize plugin core
 			$this->forminator = Forminator_Core::get_instance();
 
 			/**
@@ -404,7 +404,7 @@ if ( ! class_exists( 'Forminator' ) ) {
 		 */
 		private function include_vendors() {
 			if ( file_exists( forminator_plugin_dir() . 'library/lib/dash-notice/wpmudev-dash-notification.php' ) ) {
-				// load dashboard notice.
+				//load dashboard notice
 				global $wpmudev_notices;
 				$wpmudev_notices[] = array(
 					'id'      => 2097296,
@@ -440,7 +440,7 @@ if ( ! class_exists( 'Forminator' ) ) {
 				include_once forminator_plugin_dir() . 'library/lib/dash-notice/wpmudev-dash-notification.php';
 			}
 
-			// un-change-able 5.6.0 requirement, based on lowest version needed on vendors list.
+			// un-change-able 5.6.0 requirement, based on lowest version needed on vendors list
 			if ( version_compare( PHP_VERSION, '5.6.0', 'ge' ) ) {
 				/**
 				 * Vendors list
@@ -459,8 +459,8 @@ if ( ! class_exists( 'Forminator' ) ) {
 
 					do_action(
 						'wpmudev-recommended-plugins-register-notice',
-						plugin_basename( __FILE__ ), // Plugin basename.
-						'Forminator', // Plugin Name.
+						plugin_basename( __FILE__ ), // Plugin basename
+						'Forminator', // Plugin Name
 						array(
 							'toplevel_page_forminator',
 							'toplevel_page_forminator-network',
@@ -491,7 +491,7 @@ if ( ! class_exists( 'Forminator' ) ) {
 							'forminator_page_forminator-integrations',
 							'forminator_page_forminator-integrations-network',
 						),
-						array( 'after', '.sui-wrap .sui-header' ) // selector.
+						array( 'after', '.sui-wrap .sui-header' ) // selector
 					);
 
 				}

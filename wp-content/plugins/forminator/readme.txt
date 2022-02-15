@@ -1,13 +1,13 @@
 === Forminator - Contact Form, Payment Form & Custom Form Builder ===
 Plugin Name: Forminator - Contact Form, Payment Form & Custom Form Builder
-Version: 1.15.7
+Version: 1.15.11
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
 Tags: forms, contact form, wordpress form plugin, payment form, custom form, form builder, paypal form wordpress, form maker, quiz, quiz builder, order form, stripe payments, paypal payments, stripe form, paypal form
 Requires at least: 5.2
-Tested up to: 5.8
-Stable tag: 1.15.7
+Tested up to: 5.9
+Stable tag: 1.15.11
 Requires PHP: 5.6.20
 License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -210,6 +210,40 @@ Find out all you need to know by checking out our API documentation [here](https
 9. Allow simple drag and drop multi-file uploads for users.
 
 == Changelog ==
+
+= 1.15.11 =
+
+- Features: Global Appearance Presets
+- Improvement: Hubspot app Migration to Granular CRM Scopes
+- Fix: Editor showing an error when the rich-text option enabled
+- Fix: Console error in preview while changing the visual/text for post content
+- Fix: Console error in the settings tab of the upload field after upgrading to the latest version
+- Fix: Incorrect country flags for the International phone field option
+
+= 1.15.9 =
+
+- Features: Conditionally execute 'After submission' behaviour
+- Features: hCaptcha support
+- Features: Conditionally send leads to integrations
+- Improvement: Replace GDPR field with Consent fields in form templates
+- Improvement: Replace "ReCaptcha" with "Captcha" throughout plugin
+- Improvement: Add warning message when using Stripe and PayPal fields without visibility conditions
+- Improvement: Support shortcodes in quiz results
+- Improvement: Add submission time option to Hidden field
+- Fix: Links not saved on form
+- Fix: Stripe payments incomplete when Stripe field has visibility conditions
+- Fix: Upload field not sending to add-on integration
+- Fix: Permissions on multifile upload
+- Fix: Signature not captured on Registration form
+- Fix: Datepicker field date limitations
+- Fix: Timepicker field won't submit if hours set to 0
+- Fix: Form field mapping for login fields not working
+- Fix: PayPal stopped working after Pro upgrade
+- Fix: Slack integration redirect error
+- Fix: Form UI broken if 'Load Quiz using AJAX' enabled
+- Fix: Registration form JS error
+- Fix: Fatal error when submission method is Page Reload
+- Fix: PHP error in captcha field after update
 
 = 1.15.7 =
 

@@ -121,6 +121,17 @@ function forminator_get_registered_addons_grouped_by_connected() {
 }
 
 /**
+ * Depricated. Remove after 1.16.1. Check FortressDB integration. They use this old function.
+ *
+ * @param int $module_id Module ID.
+ * @return object
+ */
+function forminator_get_addons_instance_connected_with_form( $module_id ) {
+	_deprecated_function( __FUNCTION__, '1.15.6', 'forminator_get_addons_instance_connected_with_module( $module_id, \'form\' )' );
+	return forminator_get_addons_instance_connected_with_module( $module_id, 'form' );
+}
+
+/**
  * Get addon instances that connected with a module
  *
  * @todo  make instances static and available through runtime
@@ -138,6 +149,9 @@ function forminator_get_addons_instance_connected_with_module( $module_id, $modu
 		$addon = forminator_get_addon( $property['slug'] );
 		if ( ! empty( $property['global_id'] ) ) {
 			$addon->multi_global_id = $property['global_id'];
+		}
+		if ( ! empty( $property['multi_id'] ) ) {
+			$addon->multi_id = $property['multi_id'];
 		}
 		$addons[] = clone $addon;
 	}
@@ -807,6 +821,17 @@ function forminator_format_submitted_data_for_addon( $form_fields, $current_entr
 						}
 					}
 				}
+			
+			// For ajax multi-upload
+			} elseif ( 
+				'upload' === $form_field['type'] && 
+				'multiple' === $form_field['file-type'] && 
+				( ! isset( $form_field['upload-method'] ) || 'ajax' === $form_field['upload-method'] ) 
+			) {
+				$entry_key = array_search( $form_field['element_id'], array_column( $current_entry_fields, 'name') );
+				if ( false !== $entry_key && ! empty( $current_entry_fields[$entry_key] ) ) {
+					$formatted_post_data[ $form_field['element_id'] ] = implode( ',', $current_entry_fields[$entry_key]['value']['file']['file_url'] );
+				}
 			}
 		}
 	}
@@ -1085,6 +1110,12 @@ function forminator_addon_integration_section_admin_url( $addon, $section, $with
 		'slug'    => $addon->get_slug(),
 		'section' => $section,
 	);
+
+	if ( $addon->is_multi_global ) {
+		$query_args['global_id']  = $addon->multi_global_id;
+		$query_args['identifier'] = $identifier;
+	}
+
 	if ( $with_nonce ) {
 		$nonce               = Forminator_Integrations_Page::get_addon_page_nonce();
 		$query_args['nonce'] = $nonce;
